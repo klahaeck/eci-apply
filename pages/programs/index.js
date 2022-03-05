@@ -4,12 +4,13 @@ import fetcher from '../../lib/fetcher';
 import {
   Container
 } from 'react-bootstrap';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import Layout from '../../layouts/Main';
 import ProgramList from '../../Components/ProgramList';
+import { isAdmin } from '../../lib/utils';
 // import { meta } from '../../data';
 
-const Programs = withPageAuthRequired(() => {
+const Programs = () => {
   const { data: programs, error } = useSWR('/api/programs', fetcher);
   
   return (
@@ -25,6 +26,24 @@ const Programs = withPageAuthRequired(() => {
       </Container>
     </Layout>
   );
+};
+
+export const getServerSideProps = withPageAuthRequired({
+  getServerSideProps: async ({ req, res }) => {
+    const { user } = getSession(req, res);
+    if (!user || !isAdmin(user)) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      }
+    }
+
+    return {
+      props: {}
+    };
+  },
 });
 
 export default Programs;

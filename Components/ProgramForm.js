@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -22,7 +23,9 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
   const submitMethod = program ? 'PUT' : 'POST';
   const fetchUrl = program ? `/api/programs/${program.campaign}/${program.slug}` : '/api/programs';
 
-  const { handleSubmit, control, formState: { errors } } = useForm({
+  const router = useRouter();
+
+  const { register, handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {...formData, campaign: campaigns.find(c => c.value === formData.campaign)}
   });
   const { fields, append, remove } = useFieldArray({
@@ -51,16 +54,17 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
 
   const onSubmit = async data => {
     data.campaign = data.campaign.value;
+    // console.log(data);
     const res = await fetch(fetchUrl, {
       method: submitMethod,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     if (res.status !== 200 && res.status !== 201) {
-      alert('Something went wrong');
+      addAlert({position: 'global', color: 'danger', msg: 'Something went wrong. Please try again.'});
     } else {
-      // addToast({bg: 'success', header: 'Success!', body: 'Program Saved'});
-      addAlert({position: 'global', color: 'success', msg: 'Program Saved'});
+      addToast({bg: 'success', header: 'Success!', body: 'Program Saved'});
+      router.push(`/${data.campaign}/${data.slug}`);
     }
   };
 
@@ -235,15 +239,17 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
       </Form.Group>
 
       {fields.length > 0 && <Form.Label>Questions</Form.Label>}
-      {fields.map((q, index) => (
-        <Card key={index} body className="position-relative mb-3">
-          <Button variant="danger" size="sm" onClick={() => removeQuestion(index)} className="position-absolute" style={{right:0, top:0}}>Remove</Button>
+      {fields.map((f, index) => (
+        <Card key={f.id} body className="position-relative mb-3">
+          <input type="hidden" {...register(`questions.${index}.id`)} defaultValue={`${f.id}`} />
+
+          <Button variant="danger" size="sm" onClick={() => removeQuestion(index)} className="position-absolute top-0 end-0">Remove</Button>
           <Form.Group className="mb-3">
             <Form.Label>Question</Form.Label>
             <Controller
               name={`questions.${index}.question`}
               control={control}
-              defaultValue={q.question}
+              // defaultValue={f.question}
               rules={{
                 required: true
               }}
@@ -257,7 +263,7 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
             <Controller
               name={`questions.${index}.placeholder`}
               control={control}
-              defaultValue={q.placeholder}
+              // defaultValue={f.placeholder}
               rules={{
                 required: true
               }}
@@ -271,7 +277,7 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
             <Controller
               name={`questions.${index}.helperText`}
               control={control}
-              defaultValue={q.helperText}
+              // defaultValue={f.helperText}
               rules={{
                 required: true
               }}
@@ -285,7 +291,7 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
               <Controller
                 name={`questions.${index}.validations.required`}
                 control={control}
-                render={({ field }) => <Form.Check {...field} type="checkbox" label="Required" defaultChecked={q.validations.required} />}
+                render={({ field }) => <Form.Check {...field} type="checkbox" label="Required" defaultChecked={f.validations.required} />}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -293,7 +299,7 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
               <Controller
                 name={`questions.${index}.validations.minWords`}
                 control={control}
-                defaultValue={q.validations.minWords}
+                // defaultValue={f.validations.minWords}
                 rules={{
                   required: true
                 }}
@@ -306,7 +312,7 @@ const ProgramForm = ({ program, addToast, addAlert }) => {
               <Controller
                 name={`questions.${index}.validations.maxWords`}
                 control={control}
-                defaultValue={q.validations.maxWords}
+                // defaultValue={f.validations.maxWords}
                 rules={{
                   required: true
                 }}

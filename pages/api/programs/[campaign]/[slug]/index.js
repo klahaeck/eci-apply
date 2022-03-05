@@ -36,11 +36,7 @@ handler.put(withApiAuthRequired(async (req, res) => {
   body.updatedAt = new Date();
   body.slug = slugify(body.title, { lower: true });
 
-  console.log(body);
-
-  const updated = await db.collection('programs').updateOne({ _id: new ObjectId(_id) }, { $set: {...body} });
-
-  console.log(updated);
+  await db.collection('programs').updateOne({ _id: new ObjectId(_id) }, { $set: {...body} });
 
   return res.status(200).send('ok');
 }));

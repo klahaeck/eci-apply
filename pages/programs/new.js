@@ -5,9 +5,10 @@ import {
 import Layout from '../../layouts/Main';
 // import { meta } from '../../data';
 import ProgramForm from '../../components/ProgramForm';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
+import { isAdmin } from '../../lib/utils';
 
-const ProgramNew = withPageAuthRequired(() => {
+const ProgramNew = () => {
   return (
     <Layout>
       <Head>
@@ -26,6 +27,24 @@ const ProgramNew = withPageAuthRequired(() => {
       </Container>
     </Layout>
   );
+};
+
+export const getServerSideProps = withPageAuthRequired({
+  getServerSideProps: async ({ req, res }) => {
+    const { user } = getSession(req, res);
+    if (!user || !isAdmin(user)) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      }
+    }
+
+    return {
+      props: {}
+    };
+  },
 });
 
 export default ProgramNew;

@@ -6,6 +6,7 @@ import {
   Container,
 } from 'react-bootstrap';
 import Layout from '../../../layouts/Main';
+import ProgramToolbar from '../../../Components/ProgramToolbar';
 // import { meta } from '../../../data';
 
 const Attributes = () => {
@@ -35,7 +36,10 @@ const Attributes = () => {
       <Container fluid>
         {error && <div>Failed to load</div>}
         {!error && !program && <div>Loading...</div>}
-        {!error && program && getContent()}
+        {!error && program && <>
+          <ProgramToolbar program={program} />
+          {getContent()}
+        </>}
       </Container>
     </Layout>
   );

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 // import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import {
   Form,
   Button

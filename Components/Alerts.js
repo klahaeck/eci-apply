@@ -4,17 +4,19 @@ import {
   removeAlert,
 } from '../store/overlays/reducer';
 import {
-  Container,
   Alert,
 } from 'react-bootstrap';
 
 const Alerts = (props) => {
   const { alerts, removeAlert, position, dismissible = true } = props;
+  const thisAlerts = alerts.filter(alert => alert.position === position);
 
   return (
-    <Container className="position-absolute w-100 t-0 s-0">
-      {alerts.filter(alert => alert.position === position).map((alert, index) => <Alert key={index} variant={alert.color} onClose={() => removeAlert(index)} dismissible={dismissible}>{alert.msg}</Alert>)}
-    </Container>
+    <>
+      {thisAlerts.length > 0 && <div className="position-fixed top-0 start-0 w-100 p-3" style={{zIndex: 200}}>
+        {thisAlerts.map((alert, index) => <Alert key={index} variant={alert.color} onClose={() => removeAlert(index)} dismissible={dismissible}>{alert.msg}</Alert>)}
+      </div>}
+    </>
   );
 };
 

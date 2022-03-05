@@ -6,10 +6,12 @@ import {
   Container,
 } from 'react-bootstrap';
 import Layout from '../../../layouts/Main';
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import ProgramToolbar from '../../../Components/ProgramToolbar';
+import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
+import { isAdmin } from '../../../lib/utils';
 // import { meta } from '../../../data';
 
-const ProgramPanel = withPageAuthRequired(() => {
+const ProgramPanel = () => {
   const router = useRouter();
   const { campaign, slug } = router.query;
 
@@ -24,10 +26,31 @@ const ProgramPanel = withPageAuthRequired(() => {
       <Container fluid>
         {error && <div>Failed to load</div>}
         {!error && !program && <div>Loading...</div>}
-        {!error && program && <div dangerouslySetInnerHTML={{ __html: program.description }}></div>}
+        {!error && program && <>
+          <ProgramToolbar program={program} />
+          <div dangerouslySetInnerHTML={{ __html: program.description }}></div>
+        </>}
       </Container>
     </Layout>
   );
+};
+
+export const getServerSideProps = withPageAuthRequired({
+  getServerSideProps: async ({ req, res }) => {
+    const { user } = getSession(req, res);
+    if (!user || !isAdmin(user)) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      }
+    }
+
+    return {
+      props: {}
+    };
+  },
 });
 
 export default ProgramPanel;

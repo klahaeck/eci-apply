@@ -15,6 +15,7 @@ export const campaigns = [
 ];
 
 export const defaultQuestion = {
+  // _id: '',
   question: '',
   placeholder: '',
   helperText: '',
@@ -49,6 +50,36 @@ export const defaultProfile = {
     zip: '',
     county: '',
   }
+};
+
+export const defaultSubmission = {
+  createdBy: '',
+  leadOrganizer: {
+    // USER INFO HERE
+  },
+  title: '',
+  startDate: '',
+  completionDate: '',
+  budgetTotal: 0,
+  budgetRequested: 0,
+  summary: '',
+  details: [],
+  bios: [],
+  assets: [],
+  budget: {
+    expenses: [],
+    income: [],
+    notes: ''
+  },
+  // notes: [],
+  // ratings: [],
+  eligible: true,
+  submitted: false,
+};
+
+export const defaultBio = {
+  name: '',
+  bio: ''
 };
 
 export const states = [

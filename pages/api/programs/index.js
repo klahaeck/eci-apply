@@ -18,7 +18,6 @@ handler.post(withApiAuthRequired(async (req, res) => {
 
   body.createdAt = new Date();
   body.slug = slugify(body.title, { lower: true });
-  body.submissions = [];
 
   const existingDoc = await db.collection('programs').findOne({ slug: body.slug });
 
