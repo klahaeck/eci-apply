@@ -1,14 +1,12 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { hideModal } from '../store/overlays/reducer';
+import { useRoot } from '../contexts/RootContext';
 import {
   Modal
 } from 'react-bootstrap';
 
-const SiteModal = (props) => {
-  const { modal, hideModal, className } = props;
+const SiteModal = ({ className }) => {
+  const { modal, hideModal } = useRoot();
   return (
-    <Modal show={modal.body} onHide={hideModal} size={modal.size || 'md'} className={modal.className || className}>
+    <Modal show={modal.body} onHide={hideModal} size={modal.size || 'lg'} fullscreen={modal.fullscreen || false} className={modal.className || className}>
       {modal.header && <Modal.Header closeButton>
         <Modal.Title>{modal.header}</Modal.Title>
       </Modal.Header>}
@@ -18,12 +16,4 @@ const SiteModal = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { modal } = state.overlays;
-  return { modal };
-};
-const mapDispatchToProps = (dispatch) => ({
-  hideModal: bindActionCreators(hideModal, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SiteModal);
+export default SiteModal;

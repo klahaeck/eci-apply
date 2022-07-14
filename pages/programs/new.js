@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import Layout from '../../layouts/Main';
 // import { meta } from '../../data';
-import ProgramForm from '../../components/ProgramForm';
+import FormProgram from '../../components/FormProgram';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin } from '../../lib/utils';
 
@@ -23,7 +23,7 @@ const ProgramNew = () => {
       </Head>
 
       <Container fluid>
-        <ProgramForm />
+        <FormProgram />
       </Container>
     </Layout>
   );

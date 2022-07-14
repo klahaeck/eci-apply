@@ -3,12 +3,12 @@ import {
   Table,
   Button
 } from 'react-bootstrap';
-import ProgramsToolbar from './ProgramsToolbar';
+import ToolbarPrograms from './ToolbarPrograms';
 
 const ProgramList = ({ programs }) => {
   return (
     <>
-      <ProgramsToolbar />
+      <ToolbarPrograms />
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -29,7 +29,7 @@ const ProgramList = ({ programs }) => {
               <td>{program.startDate}</td>
               <td>{program.endDate}</td>
               <td>{program.published.toString()}</td>
-              <td>{program.submissions.length}</td>
+              <td>{program.submissionsCount}</td>
               <td>
                 <Link href={`/${program.campaign}/${program.slug}/edit`} passHref><Button variant="warning" size="sm">Edit</Button></Link>
               </td>

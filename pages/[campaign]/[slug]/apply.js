@@ -1,23 +1,22 @@
 import Head from 'next/head';
-import useSWR from 'swr';
-import fetcher from '../../../lib/fetcher';
 import { useRouter } from 'next/router';
+import useProgram from '../../../hooks/useProgram';
+import useSubmission from '../../../hooks/useSubmission';
 import {
   Container,
 } from 'react-bootstrap';
 import Layout from '../../../layouts/Main';
-import ProgramToolbar from '../../../Components/ProgramToolbar';
+// import ProgramToolbar from '../../../Components/ProgramToolbar';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Submission from '../../../Components/Submission';
-import { useEffect } from 'react';
 // import { meta } from '../../../data';
 
-const ProgramApply = withPageAuthRequired(({ user }) => {
+const ProgramApply = withPageAuthRequired(() => {
   const router = useRouter();
   const { campaign, slug } = router.query;
 
-  const { data: program, error: errorProgram } = useSWR(`/api/programs/${campaign}/${slug}`, fetcher);
-  const { data: submission, error: errorSubmission } = useSWR(program && user ? `/api/submissions?programId=${program._id}&userId=${user.sub}` : null, fetcher);
+  const { program, error: errorProgram } = useProgram({ campaign, slug });
+  const { mutate, submission, error: errorSubmission } = useSubmission({ programId: program?._id });
   
   return (
     <Layout>
@@ -27,10 +26,10 @@ const ProgramApply = withPageAuthRequired(({ user }) => {
 
       <Container fluid>
         {(errorProgram || errorSubmission) && <div>Failed to load</div>}
-        {!program && !submission && <div>Loading...</div>}
-        {submission && <>
+        {!errorProgram && !errorSubmission && !program && !submission && <div>Loading...</div>}
+        {program && submission && <>
           {/* <ProgramToolbar program={program} /> */}
-          <Submission user={user} program={program} submission={submission} />
+          <Submission program={program} submission={submission} mutate={mutate} />
         </>}
       </Container>
     </Layout>

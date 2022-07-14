@@ -1,7 +1,7 @@
 import nextConnect from 'next-connect';
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import fetch from 'node-fetch';
-import { isAdmin } from '../../../lib/utils';
+import { isAdmin } from '../../../lib/users';
 
 const handler = nextConnect();
 

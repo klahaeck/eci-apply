@@ -3,9 +3,22 @@ import { connectToDatabase } from '../../../lib/mongodb';
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import slugify from 'slugify';
 import { getPrograms } from '../../../lib/programs';
-import { isAdmin } from '../../../lib/utils';
+import { getRole, isAdmin } from '../../../lib/users';
 
 const handler = nextConnect();
+
+handler.get(async (req, res) => {
+  const sessionUser = await getSession(req, res);
+  const user = sessionUser ? sessionUser.user : null;
+  const role = getRole(user);
+
+  try {
+    const programs = await getPrograms({ role });
+    res.status(200).send(programs);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 handler.post(withApiAuthRequired(async (req, res) => {
   const user = await getSession(req, res).user;
@@ -33,19 +46,5 @@ handler.post(withApiAuthRequired(async (req, res) => {
     return res.status(400).send('Program already exists');
   }
 }));
-
-handler.get(async (req, res) => {
-  const user = await getSession(req, res).user;
-  if (!isAdmin(user)) {
-    return res.status(403).send('You do not have permission');
-  }
-
-  try {
-    const programs = await getPrograms({role: 'admin'});
-    res.status(200).send(programs);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
 
 export default handler;

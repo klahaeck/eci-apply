@@ -5,9 +5,9 @@ import {
   Button
 } from 'react-bootstrap';
 import { useUser } from '@auth0/nextjs-auth0';
-import { isAdmin } from '../lib/utils';
+import { isAdmin } from '../lib/users';
 
-const ProgramsToolbar = () => {
+const ToolbarPrograms = () => {
   const { user } = useUser();
 
   return (
@@ -23,4 +23,4 @@ const ProgramsToolbar = () => {
   );
 };
 
-export default ProgramsToolbar;
+export default ToolbarPrograms;

@@ -9,13 +9,9 @@ export const meta = {
   url: 'https://vaf.midwayart.org'
 };
 
-export const campaigns = [
-  { label: 'VAF', value: 'vaf' },
-  { label: 'Relief', value: 'relief' }
-];
+export const campaigns = [ 'VAF', 'Relief' ];
 
 export const defaultQuestion = {
-  // _id: '',
   question: '',
   placeholder: '',
   helperText: '',
@@ -37,7 +33,16 @@ export const defaultProgram = {
   quidelines: '',
   jurorInfo: '',
   confirmationEmail: '',
-  questions: []
+  questions: [],
+  currentRatingRound: 0,
+  ratingScopes: [
+    { id: 0, attribute: 'overall', weight: 100 }
+  ]
+};
+
+export const defaultScope = {
+  attribute: '',
+  weight: 0
 };
 
 export const defaultProfile = {
@@ -52,30 +57,42 @@ export const defaultProfile = {
   }
 };
 
-export const defaultSubmission = {
-  createdBy: '',
-  leadOrganizer: {
-    // USER INFO HERE
-  },
+export const defaultAsset = {
+  type: '',
   title: '',
-  startDate: '',
-  completionDate: '',
+  artist: '',
+  year: '',
+  description: ''
+};
+
+export const defaultSubmission = {
+  programId: null,
+  user: {
+    id: '',
+    email: ''
+  },
+  contacts: [],
+  title: '',
+  startDate: null,
+  completionDate: null,
   budgetTotal: 0,
-  budgetRequested: 0,
+  budgetRequested: 5000,
   summary: '',
   details: [],
   bios: [],
-  assets: [],
   budget: {
     expenses: [],
     income: [],
     notes: ''
   },
-  // notes: [],
-  // ratings: [],
   eligible: true,
   submitted: false,
 };
+
+export const grantAmounts = [
+  { label: '$5,000', value: 5000 },
+  { label: '$10,000', value: 10000 }
+];
 
 export const defaultBio = {
   name: '',
@@ -83,56 +100,56 @@ export const defaultBio = {
 };
 
 export const states = [
-  { value: 'AK', label: 'Alaska' },
-  { value: 'TX', label: 'Texas' },
-  { value: 'AL', label: 'Alabama' },
-  { value: 'AR', label: 'Arkansas' },
-  { value: 'AZ', label: 'Arizona' },
-  { value: 'CA', label: 'California' },
-  { value: 'CO', label: 'Colorado' },
-  { value: 'CT', label: 'Connecticut' },
-  { value: 'DC', label: 'DistrictofColumbia' },
-  { value: 'DE', label: 'Delaware' },
-  { value: 'FL', label: 'Florida' },
-  { value: 'GA', label: 'Georgia' },
-  { value: 'HI', label: 'Hawaii' },
-  { value: 'IA', label: 'Iowa' },
-  { value: 'ID', label: 'Idaho' },
-  { value: 'IL', label: 'Illinois' },
-  { value: 'IN', label: 'Indiana' },
-  { value: 'KS', label: 'Kansas' },
-  { value: 'KY', label: 'Kentucky' },
-  { value: 'LA', label: 'Louisiana' },
-  { value: 'MA', label: 'Massachusetts' },
-  { value: 'MD', label: 'Maryland' },
-  { value: 'ME', label: 'Maine' },
-  { value: 'MI', label: 'Michigan' },
-  { value: 'MN', label: 'Minnesota' },
-  { value: 'MO', label: 'Missouri' },
-  { value: 'MS', label: 'Mississippi' },
-  { value: 'MT', label: 'Montana' },
-  { value: 'NC', label: 'NorthCarolina' },
-  { value: 'ND', label: 'NorthDakota' },
-  { value: 'NE', label: 'Nebraska' },
-  { value: 'NH', label: 'NewHampshire' },
-  { value: 'NJ', label: 'NewJersey' },
-  { value: 'NM', label: 'NewMexico' },
-  { value: 'NV', label: 'Nevada' },
-  { value: 'NY', label: 'NewYork' },
-  { value: 'OH', label: 'Ohio' },
-  { value: 'OK', label: 'Oklahoma' },
-  { value: 'OR', label: 'Oregon' },
-  { value: 'PA', label: 'Pennsylvania' },
-  { value: 'RI', label: 'RhodeIsland' },
-  { value: 'SC', label: 'SouthCarolina' },
-  { value: 'SD', label: 'SouthDakota' },
-  { value: 'TN', label: 'Tennessee' },
-  { value: 'TX', label: 'Texas' },
-  { value: 'UT', label: 'Utah' },
-  { value: 'VA', label: 'Virginia' },
-  { value: 'VT', label: 'Vermont' },
-  { value: 'WA', label: 'Washington' },
-  { value: 'WI', label: 'Wisconsin' },
-  { value: 'WV', label: 'WestVirginia' },
-  { value: 'WY', label: 'Wyoming' }
+  { label: 'Alaska', value: 'AK' },
+  { label: 'Texas', value: 'TX' },
+  { label: 'Alabama', value: 'AL' },
+  { label: 'Arkansas', value: 'AR' },
+  { label: 'Arizona', value: 'AZ' },
+  { label: 'California', value: 'CA' },
+  { label: 'Colorado', value: 'CO' },
+  { label: 'Connecticut', value: 'CT' },
+  { label: 'District of Columbia', value: 'DC' },
+  { label: 'Delaware', value: 'DE' },
+  { label: 'Florida', value: 'FL' },
+  { label: 'Georgia', value: 'GA' },
+  { label: 'Hawaii', value: 'HI' },
+  { label: 'Iowa', value: 'IA' },
+  { label: 'Idaho', value: 'ID' },
+  { label: 'Illinois', value: 'IL' },
+  { label: 'Indiana', value: 'IN' },
+  { label: 'Kansas', value: 'KS' },
+  { label: 'Kentucky', value: 'KY' },
+  { label: 'Louisiana', value: 'LA' },
+  { label: 'Massachusetts', value: 'MA' },
+  { label: 'Maryland', value: 'MD' },
+  { label: 'Maine', value: 'ME' },
+  { label: 'Michigan', value: 'MI' },
+  { label: 'Minnesota', value: 'MN' },
+  { label: 'Missouri', value: 'MO' },
+  { label: 'Mississippi', value: 'MS' },
+  { label: 'Montana', value: 'MT' },
+  { label: 'North Carolina', value: 'NC' },
+  { label: 'North Dakota', value: 'ND' },
+  { label: 'Nebraska', value: 'NE' },
+  { label: 'New Hampshire', value: 'NH' },
+  { label: 'New Jersey', value: 'NJ' },
+  { label: 'New Mexico', value: 'NM' },
+  { label: 'Nevada', value: 'NV' },
+  { label: 'New York', value: 'NY' },
+  { label: 'Ohio', value: 'OH' },
+  { label: 'Oklahoma', value: 'OK' },
+  { label: 'Oregon', value: 'OR' },
+  { label: 'Pennsylvania', value: 'PA' },
+  { label: 'Rhode Island', value: 'RI' },
+  { label: 'South Carolina', value: 'SC' },
+  { label: 'South Dakota', value: 'SD' },
+  { label: 'Tennessee', value: 'TN' },
+  { label: 'Texas', value: 'TX' },
+  { label: 'Utah', value: 'UT' },
+  { label: 'Virginia', value: 'VA' },
+  { label: 'Vermont', value: 'VT' },
+  { label: 'Washington', value: 'WA' },
+  { label: 'Wisconsin', value: 'WI' },
+  { label: 'West Virginia', value: 'WV' },
+  { label: 'Wyoming', value: 'WY' }
 ];

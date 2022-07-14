@@ -6,7 +6,7 @@ import {
   Container,
 } from 'react-bootstrap';
 import Layout from '../../../layouts/Main';
-import ProgramToolbar from '../../../Components/ProgramToolbar';
+import ToolbarProgram from '../../../Components/ToolbarProgram';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin } from '../../../lib/utils';
 // import { meta } from '../../../data';
@@ -27,7 +27,7 @@ const ProgramPanel = () => {
         {error && <div>Failed to load</div>}
         {!error && !program && <div>Loading...</div>}
         {!error && program && <>
-          <ProgramToolbar program={program} />
+          <ToolbarProgram program={program} />
           <div dangerouslySetInnerHTML={{ __html: program.description }}></div>
         </>}
       </Container>

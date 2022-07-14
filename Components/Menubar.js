@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 import { meta } from '../data';
 import { useUser } from '@auth0/nextjs-auth0';
-import { isAdmin, isJuror } from '../lib/utils';
+import { isAdmin, isJuror } from '../lib/users';
 
 const Menubar = () => {
   const router = useRouter();
@@ -36,20 +36,20 @@ const Menubar = () => {
             {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/juror-info`} passHref>
               <Nav.Link>Juror Info</Nav.Link>
             </Link>}
-            <Link href={`/${campaign}/${slug}/submissions`} passHref>
+            {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/submissions`} passHref>
               <Nav.Link>Submissions</Nav.Link>
-            </Link>
+            </Link>}
           </Nav>}
           <Nav className="ms-auto">
-            {!user && <Nav.Link href="/api/auth/login">Login</Nav.Link>}
+            {!user && <Nav.Link href="/api/auth/login">Login/Signup</Nav.Link>}
             {user && isAdmin(user) && <Link href="/programs" passHref>
               <Nav.Link>Programs</Nav.Link>
             </Link>}
             {user && <NavDropdown title={user.email} id="collasible-nav-dropdown">
-              <Link href="/profile" passHref>
+              {/* <Link href="/profile" passHref>
                 <NavDropdown.Item>Profile</NavDropdown.Item>
-              </Link>
-              <NavDropdown.Divider />
+              </Link> */}
+              {/* <NavDropdown.Divider /> */}
               <NavDropdown.Item href="/api/auth/logout">Logout</NavDropdown.Item>
             </NavDropdown>}
           </Nav>

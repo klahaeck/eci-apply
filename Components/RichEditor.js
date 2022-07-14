@@ -19,7 +19,7 @@ const RichEditor = ({ onChange, value }) => {
       const newEditorState = EditorState.createWithContent(contentState);
       setEditorState(newEditorState);
     }
-  }, [value]);
+  }, [value, updated]);
 
   const onEditorStateChange = (editorState) => {
     setUpdated(true);

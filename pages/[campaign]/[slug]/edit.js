@@ -9,8 +9,8 @@ import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin } from '../../../lib/utils';
 import Layout from '../../../layouts/Main';
 // import { meta } from '../../data';
-import ProgramForm from '../../../components/ProgramForm';
-import ProgramToolbar from '../../../Components/ProgramToolbar';
+import FormProgram from '../../../components/FormProgram';
+import ToolbarProgram from '../../../Components/ToolbarProgram';
 
 const ProgramEdit = () => {
   const router = useRouter()
@@ -28,8 +28,8 @@ const ProgramEdit = () => {
         {error && <div>Failed to load</div>}
         {!error && !program && <div>Loading...</div>}
         {!error && program && <>
-          <ProgramToolbar program={program} />
-          <ProgramForm program={program} />
+          <ToolbarProgram program={program} />
+          <FormProgram program={program} />
         </>}
       </Container>
     </Layout>
