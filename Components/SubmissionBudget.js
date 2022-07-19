@@ -1,10 +1,13 @@
 import { Table, Button } from 'react-bootstrap';
+import { useUser } from '@auth0/nextjs-auth0';
 import NumberFormat from 'react-number-format';
 import { useRoot } from '../contexts/RootContext';
+import { isAdmin } from '../lib/users';
 import FormBudget from './FormBudget';
 import { getBudgetWithRequestedGrantValue, getBudgetTotal, getDifference } from '../lib/utils';
 
 const SubmissionBudget = ({ submission, onSubmit }) => {
+  const { user } = useUser();
   const { hideModal, openForm } = useRoot();
 
   const filteredIncome = getBudgetWithRequestedGrantValue(submission);
@@ -56,7 +59,7 @@ const SubmissionBudget = ({ submission, onSubmit }) => {
 
       <p className={`h5 text-end ${budgetTotal === 0 ? 'text-success' : 'text-danger'}`}>Difference: <NumberFormat value={budgetTotal} displayType={'text'} thousandSeparator={true} prefix={'$'} /></p>
 
-      <Button variant="primary" onClick={() => openForm('Edit Budget', <FormBudget submission={submission} onSubmit={onSubmit} hideModal={hideModal} />, 'xl', true)}>Edit Budget</Button>
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Budget', <FormBudget submission={submission} onSubmit={onSubmit} hideModal={hideModal} />, 'xl', true)}>Edit Budget</Button>}
     </>
   );
 };

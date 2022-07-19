@@ -1,15 +1,15 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import { Table, Button } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import { useRoot } from '../contexts/RootContext';
+import { isAdmin } from '../lib/users';
 import FormSummary from './FormSummary';
-// import { getBudgetWithRequestedGrantValue, getBudgetTotal } from '../lib/utils';
 
 const SubmissionSummary = ({ submission, onSubmit }) => {
+  const { user } = useUser();
   const { hideModal, openForm } = useRoot();
-  // const filteredIncome = getBudgetWithRequestedGrantValue(submission);
-  // const expensesTotal = getBudgetTotal(submission.budget.expenses);
-  // const incomeTotal = getBudgetTotal(filteredIncome);
-  // const budgetTotal = getDifference(incomeTotal, expensesTotal);
+
+  const formatDate = date => date.toLocaleString('en-US',  {weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
     <>
@@ -29,11 +29,11 @@ const SubmissionSummary = ({ submission, onSubmit }) => {
           </tr>
           <tr>
             <td>Start Date:</td>
-            <td>{new Date(submission.startDate).toLocaleString('en-US',  {weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</td>
+            <td>{!submission.startDate ? formatDate(new Date()) : formatDate(new Date(submission.startDate))}</td>
           </tr>
           <tr>
             <td>Completion Date:</td>
-            <td>{new Date(submission.completionDate).toLocaleString('en-US',  {weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</td>
+            <td>{!submission.completionDate ? formatDate(new Date()) : formatDate(new Date(submission.completionDate))}</td>
           </tr>
           <tr>
             <td>Project Summary:</td>
@@ -41,7 +41,7 @@ const SubmissionSummary = ({ submission, onSubmit }) => {
           </tr>
         </tbody>
       </Table>
-      <Button variant="primary" onClick={() => openForm('Edit Summary', <FormSummary submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Summary</Button>
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Summary', <FormSummary submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Summary</Button>}
     </>
   );
 };

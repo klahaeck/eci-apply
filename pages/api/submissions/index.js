@@ -17,9 +17,10 @@ handler.get(withApiAuthRequired(async (req, res) => {
   }
   
   const { query: { programId } } = req;
+  const userId = user.sub;
 
   try {
-    const submissions = await getSubmissions({ programId, role, sortBy: 'createdAt', sortOrder: 'asc' });
+    const submissions = await getSubmissions({ programId, userId, role, sortBy: 'createdAt', sortOrder: 'asc' });
     return res.json(submissions);
   } catch(error) {
     console.error(error);
@@ -29,11 +30,14 @@ handler.get(withApiAuthRequired(async (req, res) => {
 
 handler.put(withApiAuthRequired(async (req, res) => {
   const user = await getSession(req, res).user;
+  const role = getRole(user);
   const { body } = req;
 
-  if (!isAdmin(user) && user.sub !== body.userId) {
+  if (!user) {
     return res.status(403).send('You do not have permission');
   }
+
+  const userId = user.sub;
 
   const { db } = await connectToDatabase();
   
@@ -41,7 +45,7 @@ handler.put(withApiAuthRequired(async (req, res) => {
 
   delete body._id;
   delete body.createdAt;
-  delete body.userId;
+  if (!isAdmin(user)) delete body.userId;
 
   const now = new Date();
 
@@ -51,10 +55,16 @@ handler.put(withApiAuthRequired(async (req, res) => {
   if (body.budgetTotal) body.budgetTotal = parseInt(body.budgetTotal);
   if (body.startDate) body.startDate = new Date(body.startDate);
   if (body.completionDate) body.completionDate = new Date(body.completionDate);
+
+  const query = isAdmin(user) ? { _id: ObjectId(_id) } : { _id: ObjectId(_id), userId, submitted: false };
   
-  const document = await db.collection('submissions').updateOne({ _id: ObjectId(_id) }, { $set: {...body} }, { upsert: true });
-  const updatedDocument = await db.collection('submissions').findOne({ _id: document.upsertedId ? document.upsertedId : ObjectId(_id) });
-  return res.status(200).json(updatedDocument);
+  const document = await db.collection('submissions').findOneAndUpdate(query, { $set: {...body} }, { upsert: false });
+  if (!document.value) {
+    return res.status(403).send('You do not have permission');
+  } else {
+    const updatedSubmissions = await getSubmissions({ _id: document.value._id ? document.value._id : ObjectId(_id), role });
+    return res.status(200).json(updatedSubmissions[0]);
+  }
 }));
 
 export default handler;

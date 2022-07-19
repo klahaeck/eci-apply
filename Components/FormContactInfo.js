@@ -51,7 +51,7 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
           <Form.Group className="mb-3">
             <Form.Label>Phone</Form.Label>
             <Controller
-              name="contacts.0.phone_numer"
+              name="contacts.0.phone_number"
               control={control}
               rules={{
                 required: true,
@@ -59,8 +59,8 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
               }}
               render={({ field }) => <Input {...field} country="US" className="form-control" />}
             />            
-            {errors.contacts && errors.contacts[index]?.phone_numer?.type === 'required' && <Form.Text className="text-danger">A phone number is required</Form.Text>}
-            {errors.contacts && errors.contacts[index]?.phone_numer?.type === 'pattern' && <Form.Text className="text-danger">A valid phone number is required</Form.Text>}
+            {errors.contacts && errors.contacts[index]?.phone_number?.type === 'required' && <Form.Text className="text-danger">A phone number is required</Form.Text>}
+            {errors.contacts && errors.contacts[index]?.phone_number?.type === 'pattern' && <Form.Text className="text-danger">A valid phone number is required</Form.Text>}
           </Form.Group>
 
           <Form.Group className="mb-3">

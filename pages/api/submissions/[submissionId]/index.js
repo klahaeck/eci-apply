@@ -12,9 +12,10 @@ handler.get(withApiAuthRequired(async (req, res) => {
   const role = getRole(user);
   
   const { query: { submissionId } } = req;
+  const userId = user.sub;
 
   try {
-    const submissions = await getSubmissions({ _id: ObjectId(submissionId), role });
+    const submissions = await getSubmissions({ _id: ObjectId(submissionId), userId, role });
     if (!submissions.length) {
       return res.status(404).send('Submission not found');
     }

@@ -2,7 +2,7 @@ import { useRoot } from '../contexts/RootContext';
 import { useUser } from '@auth0/nextjs-auth0';
 import { Accordion } from 'react-bootstrap';
 import { isAdmin, isJuror } from '../lib/users';
-import JurorTools from './JurorTools';
+import JuryTools from './JuryTools';
 import Alerts from './Alerts';
 import SubmissionContactInfo from './SubmissionContactInfo';
 import SubmissionSummary from './SubmissionSummary';
@@ -20,7 +20,6 @@ const Submission = ({ program, submission, mutate }) => {
   const onSubmit = async data => {
     let updatedData = {
       _id: submission._id,
-      userId: user.sub,
       ...data
     };
 
@@ -39,55 +38,55 @@ const Submission = ({ program, submission, mutate }) => {
   return (
     <>
       <ToolbarSubmission program={program} submission={submission} />
-      {isJuror(user) && <JurorTools program={program} submissionId={submission._id} />}
+      {(isJuror(user) || isAdmin(user)) && <JuryTools program={program} submission={submission} mutate={mutate} />}
 
       <Alerts position="submission" dismissible={false} />
 
       <Accordion defaultActiveKey={['0', '1', '6']} alwaysOpen>
         <Accordion.Item eventKey="0">
-          <Accordion.Header>Contact info</Accordion.Header>
+          <Accordion.Header><b>Contact info</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionContactInfo submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="1">
-          <Accordion.Header>Summary</Accordion.Header>
+          <Accordion.Header><b>Summary</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionSummary submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="2">
-          <Accordion.Header>Details</Accordion.Header>
+          <Accordion.Header><b>Details</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionDetails submission={submission} questions={program.questions} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="3">
-          <Accordion.Header>Bios</Accordion.Header>
+          <Accordion.Header><b>Bios</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionBios submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="4">
-          <Accordion.Header>Budget</Accordion.Header>
+          <Accordion.Header><b>Budget</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionBudget submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="5">
-          <Accordion.Header>Visual Support Materials</Accordion.Header>
+          <Accordion.Header><b>Visual Support Materials</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionAssets submission={submission} onSubmit={onSubmit} mutate={mutate} />
           </Accordion.Body>
         </Accordion.Item>
 
         {isAdmin(user) && <Accordion.Item eventKey="6">
-          <Accordion.Header>Admin</Accordion.Header>
+          <Accordion.Header><b>Admin</b></Accordion.Header>
           <Accordion.Body>
             <FormAdmin submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>

@@ -1,11 +1,14 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import { Table, Button, Stack } from 'react-bootstrap';
 import { useRoot } from '../contexts/RootContext';
+import { isAdmin } from '../lib/users';
 import FormImage from './FormImage';
 import FormVideo from './FormVideo';
 import FormWebsite from './FormWebsite';
 
 const SubmissionAssets = ({ submission, mutate }) => {
+  const { user } = useUser();
   const { showModal, hideModal, openForm } = useRoot();
 
   const onSubmitAssets = () => {
@@ -37,41 +40,41 @@ const SubmissionAssets = ({ submission, mutate }) => {
       {submission.assets?.length > 0 && <Table size="sm">
         <thead>
           <tr>
-            <th>Sort</th>
+            {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <th>Sort</th>}
             <th></th>
             <th>Title</th>
             <th>Artist</th>
             <th>Year</th>
             <th>Properties</th>
             <th>Description</th>
-            <th className="text-end">Tools</th>
+            {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <th className="text-end">Tools</th>}
           </tr>
         </thead>
         <tbody>
           {submission.assets.map((asset, index) => (
             <tr key={index}>
-              <td width="20"><i className="bi-list fs-2" role="button"></i></td>
+              {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td width="20"><i className="bi-list fs-2" role="button"></i></td>}
               <td>{getAssetLink(asset)}</td>
               <td>{asset.title}</td>
               <td>{asset.artist}</td>
               <td>{asset.year}</td>
               <td>{asset.dimensions || asset.duration}</td>
               <td style={{whiteSpace: 'pre-line'}}>{asset.description}</td>
-              <td>
+              {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td>
                 <Stack direction="horizontal" gap={1} className="justify-content-end">
                   <Button variant="warning" size="sm" onClick={() => editAsset(asset)}><i className="bi bi-pencil-fill"></i></Button>
                   <Button variant="danger" size="sm" onClick={() => deleteAsset(asset._id)}><i className="bi bi-trash-fill"></i></Button>
                 </Stack>
-              </td>
+              </td>}
             </tr>
           ))}
         </tbody>
       </Table>}
-      <Stack direction="horizontal" gap={1}>
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Stack direction="horizontal" gap={1}>
         <Button variant="primary" onClick={() => openForm('Add Image', <FormImage submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Image</Button>
         <Button variant="primary" onClick={() => openForm('Add Video', <FormVideo submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Video</Button>
         <Button variant="primary" onClick={() => openForm('Add Website', <FormWebsite submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Website</Button>
-      </Stack>
+      </Stack>}
     </>
   );
 };

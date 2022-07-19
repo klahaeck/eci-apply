@@ -9,7 +9,7 @@ import { validateSubmission } from '../lib/validate';
 import { isJuror } from '../lib/users';
 
 const ToolbarSubmission = ({ program, submission }) => {
-  const { _id, submitted } = submission;
+  // const { _id, submitted } = submission;
   const { user } = useUser();
   const { addAlert, clearAlerts } = useRoot();
 
@@ -33,7 +33,7 @@ const ToolbarSubmission = ({ program, submission }) => {
       return;
     }
 
-    const response = await fetch(`/api/submissions/${_id}/submit`, {
+    const response = await fetch(`/api/submissions/${submission._id}/submit`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ const ToolbarSubmission = ({ program, submission }) => {
     });
     if (!response.ok) {
       const resJSON = await response.json();
-      console.log(resJSON);
+      // console.log(resJSON);
       if (resJSON.errors) handlErrors(resJSON.errors);
     }
   };
@@ -56,7 +56,7 @@ const ToolbarSubmission = ({ program, submission }) => {
 
   return (
     <Navbar bg="dark" variant="dark">
-      {isJuror(user) && <Nav className="me-auto px-2">
+      {isJuror(user) && <Nav className="ms-auto px-2">
         <Nav.Item className="mx-1">
           <Button variant="secondary" size="sm" onClick={() => prevSubmission()}>Prev</Button>
         </Nav.Item>
@@ -64,14 +64,14 @@ const ToolbarSubmission = ({ program, submission }) => {
           <Button variant="secondary" size="sm" onClick={() => nextSubmission()}>Next</Button>
         </Nav.Item>
       </Nav>}
-      <Nav className="ms-auto px-2">
-        {user.sub === submission.user.id && !submitted && <Nav.Item className="mx-1">
+      {user.sub === submission.userId && <Nav className="ms-auto px-2">
+        {!submission.submitted && <Nav.Item className="mx-1">
           <Button variant="success" size="sm" onClick={() => handleSubmit()}>Submit</Button>
         </Nav.Item>}
-        {user.sub === submission.user.id && submitted && <Nav.Item>
+        {submission.submitted && <Nav.Item>
           <span className="text-light">Your application has been submitted</span>
         </Nav.Item>}
-      </Nav>
+      </Nav>}
     </Navbar>
   );
 };

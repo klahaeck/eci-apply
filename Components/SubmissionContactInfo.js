@@ -1,9 +1,12 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import { Table, Button } from 'react-bootstrap';
 import { formatPhoneNumber } from 'react-phone-number-input';
 import { useRoot } from '../contexts/RootContext';
+import { isAdmin } from '../lib/users';
 import FormContactInfo from './FormContactInfo';
 
 const SubmissionContactInfo = ({ submission, onSubmit }) => {
+  const { user } = useUser();
   const { hideModal, openForm } = useRoot();
 
   return (
@@ -42,7 +45,7 @@ const SubmissionContactInfo = ({ submission, onSubmit }) => {
           </tbody>
         </Table>
       ))}
-      <Button variant="primary" onClick={() => openForm('Edit Contact Info', <FormContactInfo submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Contact Info</Button>
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Contact Info', <FormContactInfo submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Contact Info</Button>}
     </>
   );
 };

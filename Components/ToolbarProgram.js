@@ -7,12 +7,13 @@ import {
 import { useUser } from '@auth0/nextjs-auth0';
 import { isAdmin, isJuror } from '../lib/users';
 
-const ToolbarProgram = ({ program }) => {
+const ToolbarProgram = ({ program, showSearch }) => {
   const { campaign, slug } = program;
   const { user } = useUser();
 
   return (
     <Navbar bg="dark" variant="dark">
+      {showSearch && <h1>test</h1>}
       <Nav className="ms-auto px-2">
         {!user && <Nav.Item>
           <span className="text-light">Login to create your submission</span>

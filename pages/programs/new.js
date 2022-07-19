@@ -32,7 +32,7 @@ const ProgramNew = () => {
 export const getServerSideProps = withPageAuthRequired({
   getServerSideProps: async ({ req, res }) => {
     const { user } = getSession(req, res);
-    if (!user || !isAdmin(user)) {
+    if (!isAdmin(user)) {
       return {
         redirect: {
           destination: '/',

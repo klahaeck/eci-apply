@@ -10,7 +10,7 @@ const Alerts = ({ position, dismissible = true }) => {
   return (
     <>
       {thisAlerts.length > 0 && <div className="w-100" style={{zIndex: 200}}>
-        {thisAlerts.map((alert, index) => <Alert key={index} variant={alert.color} onClose={() => removeAlert(index)} dismissible={dismissible}>
+        {thisAlerts.map((alert, index) => <Alert key={index} className="my-2" variant={alert.color} onClose={() => removeAlert(index)} dismissible={dismissible}>
           {alert.heading && <Alert.Heading>{alert.heading}</Alert.Heading>}
           <div dangerouslySetInnerHTML={{__html: alert.msg}} />
         </Alert>)}

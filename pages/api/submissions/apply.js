@@ -36,7 +36,7 @@ handler.get(withApiAuthRequired(async (req, res) => {
       };
       const { db } = await connectToDatabase();
       const result = await db.collection('submissions').insertOne(newSubmissionData);
-      const newSubmissions = await getSubmissions({ _id: result.insertedId });
+      const newSubmissions = await getSubmissions({ _id: result.insertedId, role });
       return res.json(newSubmissions[0]);
     } else {
       return res.json(submissions[0]);

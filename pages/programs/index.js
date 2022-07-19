@@ -7,7 +7,7 @@ import {
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import Layout from '../../layouts/Main';
 import ProgramList from '../../Components/ProgramList';
-import { isAdmin } from '../../lib/utils';
+import { isAdmin } from '../../lib/users';
 // import { meta } from '../../data';
 
 const Programs = () => {

@@ -15,11 +15,10 @@ const SubmissionById = withPageAuthRequired(() => {
   const router = useRouter();
   const { campaign, slug, submissionId } = router.query;
 
-
-  const { program, error: errorProgram } = useProgram({ campaign, slug }); 
-  const { submission, error: errorSubmission } = useSubmission({ submissionId });  
+  const { program, error: errorProgram } = useProgram({ campaign, slug });
+  const { mutate, submission, error: errorSubmission } = useSubmission({ submissionId });
   
-Submission (
+  return (
     <Layout>
       <Head>
         <title>VAF - {campaign} {slug}</title>
@@ -30,7 +29,7 @@ Submission (
         {!errorProgram && !errorSubmission && !program && !submission && <div>Loading...</div>}
         {program && submission && <>
           {/* <ProgramToolbar program={program} /> */}
-          <Submission program={program} submission={submission} />
+          <Submission program={program} submission={submission} mutate={mutate} />
         </>}
       </Container>
     </Layout>

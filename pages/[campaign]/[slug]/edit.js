@@ -6,7 +6,7 @@ import {
   Container,
 } from 'react-bootstrap';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import { isAdmin } from '../../../lib/utils';
+import { isAdmin } from '../../../lib/users';
 import Layout from '../../../layouts/Main';
 // import { meta } from '../../data';
 import FormProgram from '../../../components/FormProgram';

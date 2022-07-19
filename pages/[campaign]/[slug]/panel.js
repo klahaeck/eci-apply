@@ -8,7 +8,7 @@ import {
 import Layout from '../../../layouts/Main';
 import ToolbarProgram from '../../../Components/ToolbarProgram';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import { isAdmin } from '../../../lib/utils';
+import { isAdmin } from '../../../lib/users';
 // import { meta } from '../../../data';
 
 const ProgramPanel = () => {
