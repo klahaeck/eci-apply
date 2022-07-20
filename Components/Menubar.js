@@ -11,10 +11,13 @@ import {
 import { meta } from '../data';
 import { useUser } from '@auth0/nextjs-auth0';
 import { isAdmin, isJuror } from '../lib/users';
+import useQueryParams from '../hooks/useQueryParams';
+import { stringify } from 'query-string';
 
 const Menubar = () => {
   const router = useRouter();
   const { campaign, slug } = router.query;
+  const { queryParams, structure, encodeQueryParams } = useQueryParams();
 
   const { user } = useUser();
 
@@ -36,7 +39,7 @@ const Menubar = () => {
             {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/juror-info`} passHref>
               <Nav.Link>Juror Info</Nav.Link>
             </Link>}
-            {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/submissions`} passHref>
+            {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/submissions?${stringify(encodeQueryParams(structure, queryParams))}`} passHref>
               <Nav.Link>Submissions</Nav.Link>
             </Link>}
           </Nav>}

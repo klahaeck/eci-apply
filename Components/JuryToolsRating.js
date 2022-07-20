@@ -15,8 +15,8 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
   });
 
   useEffect(() => {
-    replaceScopes(!submission.myRating?.scopes?.length ? program.ratingScopes : submission.myRating.scopes);
-  }, [program.ratingScopes, submission.myRating, replaceScopes]);
+    replaceScopes(!submission.ratingScopes?.length ? program.ratingScopes : submission.ratingScopes);
+  }, [program.ratingScopes, submission.ratingScopes, replaceScopes]);
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -56,7 +56,7 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="mt-3">
       {submission['avgRating'] === undefined && <>
-        <p className="h4">Your Rating: <b>{submission.myRating?.rate}</b></p>
+        <p className="h4">Your Rating: <b>{submission.myRating}</b></p>
         {scopes.sort(sortScopes).map((scope, index) => (
           <div key={scope.id}>
             <Form.Label className="mb-0">{scope.attribute} ({scope.weight}%)</Form.Label>

@@ -7,20 +7,19 @@ import {
   InputGroup
 } from 'react-bootstrap';
 import { useUser } from '@auth0/nextjs-auth0';
+import isEmpty from 'lodash/isEmpty';
 import { useForm, Controller } from 'react-hook-form';
-import { useQueryParams, StringParam, withDefault } from 'use-query-params';
+import useQueryParams from '../hooks/useQueryParams';
 import { isAdmin, isJuror } from '../lib/users';
 
 const ToolbarProgram = ({ program, showSearch }) => {
   const { campaign, slug } = program;
   const { user } = useUser();
-  const [ queryParams, setQueryParams ] = useQueryParams({
-    s: withDefault(StringParam, ''),
-  });
+  const { queryParams, setQueryParams } = useQueryParams();
   const { s: searchQuery } = queryParams;
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, control } = useForm();
 
-  const onSubmit = async data => setQueryParams({ ...queryParams, s: data.searchQuery });
+  const onSubmit = async data => setQueryParams({ s: !isEmpty(data.searchQuery) ? data.searchQuery : undefined });
 
   return (
     <Navbar bg="dark" variant="dark">

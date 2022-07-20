@@ -1,5 +1,6 @@
+import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0';
-import { useQueryParam, StringParam } from 'use-query-params';
+import useQueryParams from '../hooks/useQueryParams';
 import { useRoot } from '../contexts/RootContext';
 import {
   Navbar,
@@ -10,10 +11,11 @@ import { validateSubmission } from '../lib/validate';
 import { isJuror } from '../lib/users';
 
 const ToolbarSubmission = ({ program, submission }) => {
-  // const { _id, submitted } = submission;
+  const router = useRouter();
   const { user } = useUser();
-  const [ sortBy, setSortBy ] = useQueryParam('sortBy', StringParam);
-  const [ sortOrder, setSortOrder ] = useQueryParam('sortOrder', StringParam);
+  const { campaign, slug } = program;
+  const { queryParams } = useQueryParams();
+  const { sortBy, sortOrder } = queryParams;
   const { addAlert, clearAlerts } = useRoot();
 
   const handlErrors = (errors) => {
@@ -49,22 +51,27 @@ const ToolbarSubmission = ({ program, submission }) => {
     }
   };
 
-  const prevSubmission = async () => {
-    console.log(sortBy, sortOrder);
-  };
-  
-  const nextSubmission = async () => {
-    // go to next submission
-  };
+  const navigatePrevNext = async (direction) => {
+    const response = await fetch(`/api/submissions/${submission._id}/navigate?direction=${direction}&sortBy=${sortBy}&sortOrder=${sortOrder}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    const resJSON = await response.json();
+    if (resJSON._id) {
+      router.push(`/${campaign}/${slug}/submissions/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`);
+    }
+  }
 
   return (
     <Navbar bg="dark" variant="dark">
       {isJuror(user) && <Nav className="ms-auto px-2">
         <Nav.Item className="mx-1">
-          <Button variant="secondary" size="sm" onClick={() => prevSubmission()}>Prev</Button>
+          <Button variant="secondary" size="sm" onClick={() => navigatePrevNext('next')}>Prev</Button>
         </Nav.Item>
         <Nav.Item className="mx-1">
-          <Button variant="secondary" size="sm" onClick={() => nextSubmission()}>Next</Button>
+          <Button variant="secondary" size="sm" onClick={() => navigatePrevNext('prev')}>Next</Button>
         </Nav.Item>
       </Nav>}
       {user.sub === submission.userId && <Nav className="ms-auto px-2">
