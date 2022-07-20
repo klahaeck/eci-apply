@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import useSWR from 'swr';
@@ -7,22 +6,30 @@ import { useRouter } from 'next/router';
 import {
   Container,
   Table,
-  Button
+  Button,
+  Pagination
 } from 'react-bootstrap';
 import Layout from '../../../../layouts/Main';
 import ToolbarProgram from '../../../../Components/ToolbarProgram';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin, isJuror } from '../../../../lib/users';
-// import { meta } from '../../../data';
+import { useQueryParams, StringParam, NumberParam, withDefault } from 'use-query-params';
 
 const ProgramSubmissions = ({ user }) => {
   const router = useRouter();
   const { campaign, slug } = router.query;
-  const [ sortBy, setSortBy ] = useState('createdAt');
-  const [ sortOrder, setSortOrder ] = useState(-1);
+  const [ queryParams, setQueryParams ] = useQueryParams({
+    sortBy: withDefault(StringParam, 'createdAt'),
+    sortOrder: withDefault(StringParam, 'desc'),
+    s: withDefault(StringParam, ''),
+    perPage: withDefault(NumberParam, 30),
+    pageNumber: withDefault(NumberParam, 1)
+  });
+
+  const { sortBy, sortOrder, s: searchQuery, perPage, pageNumber } = queryParams;
 
   const { data: program, error: errorProgram } = useSWR(`/api/programs/${campaign}/${slug}`, fetcher);
-  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? `/api/submissions?programId=${program._id}` : null, fetcher);
+  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber }] : null, fetcher);
 
   const removeSubmission = async (id) => {
     if (confirm('Are you sure?')) {
@@ -32,20 +39,15 @@ const ProgramSubmissions = ({ user }) => {
   };
 
   const setSort = (key) => {
-    setSortBy(key);
-    if (key === sortBy) {
-      setSortOrder(sortOrder * -1);
-    }
-    
-    const thisKey = sortBy === 'myRating' ? 'myRating.rate' : sortBy;
+    const thisSortBy = key === 'myRating' ? 'myRating.rate' : key;
+    const thisSortOrder = key === sortBy && sortOrder === 'desc' ? 'asc'
+                        : key === sortBy && sortOrder === 'asc' ? 'desc'
+                        : sortOrder;
 
-    const sortedSubmissions = [...submissions].sort((a, b) => {
-      if (a[thisKey] < b[thisKey]) return sortOrder;
-      if (a[thisKey] > b[thisKey]) return -sortOrder;
-      return 0;
-    });
-    mutate(sortedSubmissions, false);
+    setQueryParams({ ...queryParams, sortBy: thisSortBy, sortOrder: thisSortOrder });
   };
+
+  const getSubmissions = submissions?.data ? submissions.data : submissions;
 
   return (
     <Layout>
@@ -57,7 +59,7 @@ const ProgramSubmissions = ({ user }) => {
         
         {(errorProgram || errorSubmissions) && <div>Failed to load</div>}
         {(!program || !submissions) && <div>Loading...</div>}
-        {program && submissions?.length > 0 && <>
+        {program && submissions && <>
           <ToolbarProgram program={program} showSearch={true} />
           <Table striped bordered hover>
             <thead>
@@ -72,10 +74,14 @@ const ProgramSubmissions = ({ user }) => {
               </tr>
             </thead>
             <tbody>
-              {submissions.map((submission, index) => (
+              {submissions && getSubmissions.map((submission, index) => (
                 <tr key={index}>
                   <td>{submission.contacts.map(contact => contact.name).join(', ')}</td>
-                  <td>{submission.title}</td>
+                  <td>
+                    <Link href={`/${program.campaign}/${program.slug}/submissions/${submission._id}`} passHref>
+                      <a>{submission.title}</a>
+                    </Link>
+                  </td>
                   <td>{submission.assetsCount}</td>
                   {isJuror(user) && <td>{submission.myRating?.rate}</td>}
                   {isAdmin(user) && <td>{submission.avgRating}</td>}
@@ -91,6 +97,22 @@ const ProgramSubmissions = ({ user }) => {
               ))}
             </tbody>
           </Table>
+
+          {submissions.totalPages > 1 && <Pagination>
+            <Pagination.First onClick={() => setQueryParams({ ...queryParams, pageNumber: 1 })} />
+            <Pagination.Prev onClick={() => setQueryParams({ ...queryParams, pageNumber: Math.max(1, queryParams.pageNumber - 1)})} />
+            
+            {[...Array(submissions.totalPages)].map((_, index) => (
+              <Pagination.Item key={index} active={index + 1 === pageNumber} onClick={() => setQueryParams({ ...queryParams, pageNumber: index + 1 })}>
+                {index + 1}
+              </Pagination.Item>
+            ))}
+            {/* <Pagination.Ellipsis /> */}
+
+            {/* <Pagination.Ellipsis /> */}
+            <Pagination.Next onClick={() => setQueryParams({ ...queryParams, pageNumber: Math.min(submissions.totalPages, queryParams.pageNumber + 1)})} />
+            <Pagination.Last onClick={() => setQueryParams({ ...queryParams, pageNumber: submissions.totalPages })} />
+          </Pagination>}
         </>}
       </Container>
     </Layout>

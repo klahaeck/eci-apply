@@ -6,10 +6,8 @@ import {
   Container,
 } from 'react-bootstrap';
 import Layout from '../../../../layouts/Main';
-// import ProgramToolbar from '../../../Components/ProgramToolbar';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Submission from '../../../../Components/Submission';
-// import { meta } from '../../../data';
 
 const SubmissionById = withPageAuthRequired(() => {
   const router = useRouter();

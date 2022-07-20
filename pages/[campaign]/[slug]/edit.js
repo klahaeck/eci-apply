@@ -1,5 +1,4 @@
-import useSWR from 'swr';
-import fetcher from '../../../lib/fetcher';
+import useProgram from '../../../hooks/useProgram';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import {
@@ -16,7 +15,7 @@ const ProgramEdit = () => {
   const router = useRouter()
   const { campaign, slug } = router.query
 
-  const { data: program, error } = useSWR(`/api/programs/${campaign}/${slug}`, fetcher);
+  const { program, error } = useProgram({ campaign, slug });
 
   return (
     <Layout>

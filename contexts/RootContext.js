@@ -7,7 +7,6 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const CLEAR_ALERTS = 'CLEAR_ALERTS';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
-export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 
 const rootReducer = (state, action) => {
   switch(action.type) {
@@ -26,8 +25,6 @@ const rootReducer = (state, action) => {
       return { ...state, modal: action.payload };
     case HIDE_MODAL:
       return { ...state, modal: {} };
-    case SET_SEARCH_QUERY:
-      return { ...state, searchQuery: action.payload };
     default:
       return state;
   }
@@ -49,22 +46,20 @@ export const RootProvider = ({ children }) => {
     toasts: [],
     alerts: [],
     modal: {},
-    searchQuery: null
   };
 
   const [ state, dispatch ] = useReducer(rootReducer, initialState);
 
-  const addToast = (toast) => dispatch({ type: ADD_TOAST, payload: toast });
-  const removeToast = (toast) => dispatch({ type: REMOVE_TOAST, payload: toast });
-  const addAlert = (alert) => dispatch({ type: ADD_ALERT, payload: alert });
-  const removeAlert = (index) => dispatch({ type: REMOVE_ALERT, payload: index });
-  const clearAlerts = (position) => dispatch({ type: CLEAR_ALERTS, payload: position });
-  const showModal = (modal) => dispatch({ type: SHOW_MODAL, payload: modal });
-  const hideModal = () => dispatch({ type: HIDE_MODAL });
-  const openForm = (header, body, size, fullscreen) => showModal({size, header, body, fullscreen});
-  const setSearchQuery = (searchQuery) => dispatch({ type: SET_SEARCH_QUERY, payload: searchQuery });
+  const methods = {
+    addToast: (toast) => dispatch({ type: ADD_TOAST, payload: toast }),
+    removeToast: (toast) => dispatch({ type: REMOVE_TOAST, payload: toast }),
+    addAlert: (alert) => dispatch({ type: ADD_ALERT, payload: alert }),
+    removeAlert: (index) => dispatch({ type: REMOVE_ALERT, payload: index }),
+    clearAlerts: (position) => dispatch({ type: CLEAR_ALERTS, payload: position }),
+    showModal: (modal) => dispatch({ type: SHOW_MODAL, payload: modal }),
+    hideModal: () => dispatch({ type: HIDE_MODAL }),
+    openForm: (header, body, size, fullscreen) => this.showModal({size, header, body, fullscreen}),
+  };
 
-  const value = { ...state, addToast, removeToast, addAlert, removeAlert, clearAlerts, showModal, hideModal, openForm, setSearchQuery };
-
-  return <RootContext.Provider value={value}>{children}</RootContext.Provider>;
+  return <RootContext.Provider value={{ ...state,  ...methods }}>{children}</RootContext.Provider>;
 }

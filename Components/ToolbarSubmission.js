@@ -1,16 +1,19 @@
+import { useUser } from '@auth0/nextjs-auth0';
+import { useQueryParam, StringParam } from 'use-query-params';
+import { useRoot } from '../contexts/RootContext';
 import {
   Navbar,
   Nav,
   Button
 } from 'react-bootstrap';
-import { useUser } from '@auth0/nextjs-auth0';
-import { useRoot } from '../contexts/RootContext';
 import { validateSubmission } from '../lib/validate';
 import { isJuror } from '../lib/users';
 
 const ToolbarSubmission = ({ program, submission }) => {
   // const { _id, submitted } = submission;
   const { user } = useUser();
+  const [ sortBy, setSortBy ] = useQueryParam('sortBy', StringParam);
+  const [ sortOrder, setSortOrder ] = useQueryParam('sortOrder', StringParam);
   const { addAlert, clearAlerts } = useRoot();
 
   const handlErrors = (errors) => {
@@ -47,7 +50,7 @@ const ToolbarSubmission = ({ program, submission }) => {
   };
 
   const prevSubmission = async () => {
-    // go to prev submission
+    console.log(sortBy, sortOrder);
   };
   
   const nextSubmission = async () => {

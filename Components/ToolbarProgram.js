@@ -2,18 +2,46 @@ import Link from 'next/link';
 import {
   Navbar,
   Nav,
-  Button
+  Button,
+  Form,
+  InputGroup
 } from 'react-bootstrap';
 import { useUser } from '@auth0/nextjs-auth0';
+import { useForm, Controller } from 'react-hook-form';
+import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 import { isAdmin, isJuror } from '../lib/users';
 
 const ToolbarProgram = ({ program, showSearch }) => {
   const { campaign, slug } = program;
   const { user } = useUser();
+  const [ queryParams, setQueryParams ] = useQueryParams({
+    s: withDefault(StringParam, ''),
+  });
+  const { s: searchQuery } = queryParams;
+  const { handleSubmit, control, formState: { errors } } = useForm();
+
+  const onSubmit = async data => setQueryParams({ ...queryParams, s: data.searchQuery });
 
   return (
     <Navbar bg="dark" variant="dark">
-      {showSearch && <h1>test</h1>}
+      {showSearch && <Nav className="px-2">
+        <Nav.Item>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <InputGroup size="sm">
+              <Controller
+                name="searchQuery"
+                control={control}
+                defaultValue={searchQuery}
+                // rules={{
+                //   required: true
+                // }}
+                render={({ field }) => <Form.Control {...field} placeholder="Search" aria-label="Search" size="sm" />}
+              />
+              <Button type="submit" size="sm">Search</Button>
+            </InputGroup>
+          </Form>
+        </Nav.Item>
+      </Nav>}
       <Nav className="ms-auto px-2">
         {!user && <Nav.Item>
           <span className="text-light">Login to create your submission</span>
