@@ -29,6 +29,15 @@ const FormAdmin = ({ submission, onSubmit }) => {
             render={({ field }) => <Form.Check {...field} type="switch" label="Eligible" defaultChecked={eligible} />}
           />
         </Form.Group>
+
+        <Form.Group className="my-3">
+          <Controller
+            control={control}
+            name="finalist"
+            defaultValue={finalist}
+            render={({ field }) => <Form.Check {...field} type="switch" label="Finalist" defaultChecked={finalist} />}
+          />
+        </Form.Group>
       </Stack>
 
       {/* <Form.Group className="my-3">

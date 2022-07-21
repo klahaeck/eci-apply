@@ -13,12 +13,11 @@ const rootReducer = (state, action) => {
     case ADD_TOAST:
       return { ...state, toasts: [ ...state.toasts, action.payload ] };
     case REMOVE_TOAST:
-      return { ...state, toasts: state.toasts.filter(toast => toast !== action.payload) };
+      return { ...state, toasts: state.toasts.splice(action.payload, 1) };
     case ADD_ALERT:
       return { ...state, alerts: [ ...state.alerts, action.payload ] };
     case REMOVE_ALERT:
-      console.log(action.payload);
-      return { ...state, alerts: state.alerts.splice(action.payload, 1) };
+      return { ...state, alerts: state.alerts.filter(alert => alert.position !== action.payload.position).splice(action.payload.index, 1) };
     case CLEAR_ALERTS:
       return { ...state, alerts: state.alerts.filter(alert => alert.position !== action.payload) };
     case SHOW_MODAL:

@@ -16,7 +16,6 @@ import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { stripHtml } from 'string-strip-html';
 import { campaigns, defaultProgram, defaultQuestion, defaultScope } from '../data';
-import { useEffect } from 'react';
 
 const RichEditor = dynamic(() => import('./RichEditor'), { ssr: false });
 
@@ -49,7 +48,7 @@ const FormProgram = ({ program }) => {
 
   const confirmRemoveQuestion = (index) => {
     if (window.confirm('Are you sure you want to remove this question?')) {
-      remove(index);
+      removeQuestion(index);
     }
   };
 
@@ -67,6 +66,18 @@ const FormProgram = ({ program }) => {
 
   const onSubmit = async data => {
     data.campaign = data.campaign.value ? data.campaign.value : data.campaign;
+
+    const scopesTotal = data.ratingScopes.reduce((acc, scope) => acc + parseInt(scope.weight), 0);
+    if (scopesTotal !== 100) {
+      addAlert({
+        position: 'global',
+        heading: 'There were errors with your program!',
+        color: 'danger',
+        msg: 'The total weight of all rating scopes must equal 100!'
+      });
+      return;
+    }
+
     const res = await fetch(fetchUrl, {
       method: submitMethod,
       headers: { 'Content-Type': 'application/json' },
@@ -362,13 +373,27 @@ const FormProgram = ({ program }) => {
         </Tab>
 
         <Tab eventKey="jurorTools" title="Juror Tools">
+          <Form.Group className="mb-3">
+            <Form.Label>Current Rating Round</Form.Label>
+            <Controller
+              name="ratingRound"
+              control={control}
+              defaultValue={1}
+              rules={{
+                required: true
+              }}
+              render={({ field }) => <Form.Control {...field} type="number" placeholder="" />}
+            />
+            {errors.maxWorkAssets?.type === 'required' && <Form.Text className="text-danger">Current rating round is required</Form.Text>}
+          </Form.Group>
+
           <Form.Label>Rating Scopes</Form.Label>
           {scopes.map((s, index) => (
             <Row key={s.id} className="mb-3">
               <Controller
                 name={`ratingScopes.${index}._id`}
                 control={control}
-                defaultValue={s._id || index}
+                defaultValue={typeof s._id === 'string' ? s._id : s.id}
                 rules={{
                   required: true
                 }}
@@ -401,13 +426,6 @@ const FormProgram = ({ program }) => {
                       validate: {
                         positive: v => parseInt(v) >= 0,
                         lessThanHundred: v => parseInt(v) < 100,
-                        validTotal: value => {
-                          const currentScopes = getValues('ratingScopes');
-                          // console.log(currentScopes);
-                          const otherWeights = currentScopes.filter(thisScope => thisScope._id !== s._id).reduce((accumulator, thisScope) => accumulator + parseInt(thisScope.weight), 0);
-                          console.log(otherWeights, parseInt(value));
-                          return (otherWeights + parseInt(value)) === 100;
-                        }
                       }
                     }}
                     render={({ field }) => <Form.Control {...field} type="number" placeholder="Enter the weight" />}
@@ -415,7 +433,7 @@ const FormProgram = ({ program }) => {
                   {errors.ratingScopes && errors.ratingScopes[index] && errors.ratingScopes[index].weight?.type === 'required' && <Form.Text className="text-danger">The weight is required</Form.Text>}
                   {errors.ratingScopes && errors.ratingScopes[index] && errors.ratingScopes[index].weight?.type === 'positive' && <Form.Text className="text-danger">The weight must be greater than 0</Form.Text>}
                   {errors.ratingScopes && errors.ratingScopes[index] && errors.ratingScopes[index].weight?.type === 'lessThanHundred' && <Form.Text className="text-danger">The weight must be less than 100</Form.Text>}
-                  {errors.ratingScopes && errors.ratingScopes[index] && errors.ratingScopes[index].weight?.type === 'validTotal' && <Form.Text className="text-danger">The total weight must equal 100</Form.Text>}
+                  {/* {errors.ratingScopes && errors.ratingScopes[index] && errors.ratingScopes[index].weight?.type === 'validTotal' && <Form.Text className="text-danger">The total weight must equal 100</Form.Text>} */}
                 </Form.Group>
               </Col>
               <Col className="d-flex align-items-end">

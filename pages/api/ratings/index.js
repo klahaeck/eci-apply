@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '../../../lib/mongodb';
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin, isJuror } from '../../../lib/users';
-// import { getRatings } from '../../../lib/ratings';
+import { calculateRate } from '../../../lib/ratings';
 
 const handler = nextConnect();
 
@@ -45,15 +45,16 @@ handler.put(withApiAuthRequired(async (req, res) => {
   body.updatedAt = now;
   body.submissionId = ObjectId(submissionId);
   body.userId = isAdmin(user) ? userId : user.sub;
+  body.round = parseInt(body.round) || 1;
 
   // console.log(body);
   if (body.scopes) {
-    body.scopes = body.scopes.map(s => ({...s, value: parseInt(s.value)}));
-    body.rate = parseFloat(body.scopes.reduce((accumulator, scope) => accumulator + (scope.value * (scope.weight / 100)), 0).toFixed(3));
+    body.scopes = body.scopes.map(s => ({...s, value: parseFloat(s.value)}));
+    body.rate = calculateRate(body.scopes);
   }
 
   try {
-    await db.collection('ratings').updateOne({ submissionId: ObjectId(submissionId), userId }, { $set: body }, { upsert: true });
+    await db.collection('ratings').updateOne({ submissionId: ObjectId(submissionId), userId, round: body.round }, { $set: body }, { upsert: true });
     // const updatedRating = await db.collection('ratings').findOne({ submissionId: ObjectId(submissionId), userId });
     return res.status(200).send();
   } catch(error) {

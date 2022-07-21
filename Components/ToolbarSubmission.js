@@ -60,7 +60,8 @@ const ToolbarSubmission = ({ program, submission }) => {
     });
     const resJSON = await response.json();
     if (resJSON._id) {
-      router.push(`/${campaign}/${slug}/submissions/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`);
+      window.location.href = `/${campaign}/${slug}/submissions/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`;
+      // router.push(`/${campaign}/${slug}/submissions/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`);
     }
   }
 

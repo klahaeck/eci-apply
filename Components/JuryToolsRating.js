@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import {
@@ -7,6 +7,7 @@ import {
 
 const JuryToolsRating = ({ program, submission, mutate }) => {
   const { user } = useUser();
+  const [ myRating, setMyRating ] = useState({});
   const { watch, handleSubmit, control, formState: { errors } } = useForm();
 
   const { fields: scopes, replace: replaceScopes } = useFieldArray({
@@ -15,8 +16,10 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
   });
 
   useEffect(() => {
-    replaceScopes(!submission.ratingScopes?.length ? program.ratingScopes : submission.ratingScopes);
-  }, [program.ratingScopes, submission.ratingScopes, replaceScopes]);
+    const currentRoundRating = submission.ratings?.filter(rating => rating.round === program.ratingRound);
+    setMyRating(currentRoundRating.length > 0 ? currentRoundRating[0].rate : null);
+    replaceScopes(currentRoundRating.length > 0 ? currentRoundRating[0].scopes : program.ratingScopes);
+  }, [program.ratingRound, program.ratingScopes, submission, replaceScopes]);
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -45,18 +48,19 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
   const onSubmit = useCallback(async (data) => {
     const mappedScopes = data.scopes.map(s => ({...s, value: parseInt(s.value) || 0}));
     data.scopes = mappedScopes;
+    data.round = program.ratingRound;
     await fetch(`/api/ratings?submissionId=${submission._id}&userId=${user.sub}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     mutate();    
-  }, [mutate, submission, user]);
+  }, [mutate, submission, user, program.ratingRound]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="mt-3">
       {submission['avgRating'] === undefined && <>
-        <p className="h4">Your Rating: <b>{submission.myRating}</b></p>
+        <p className="h4">Your Rating: <b>{myRating ? `${myRating}` : 'Not yet rated'}</b></p>
         {scopes.sort(sortScopes).map((scope, index) => (
           <div key={scope.id}>
             <Form.Label className="mb-0">{scope.attribute} ({scope.weight}%)</Form.Label>

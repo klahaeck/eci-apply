@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '../../../../../lib/mongodb';
 import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { getPrograms } from '../../../../../lib/programs';
-import { getRole, isAdmin, isJuror } from '../../../../../lib/users';
+import { getRole, isAdmin } from '../../../../../lib/users';
 
 const handler = nextConnect();
 
@@ -41,6 +41,7 @@ handler.put(withApiAuthRequired(async (req, res) => {
   body.slug = slugify(body.title, { lower: true });
   body.minWorkAssets = parseInt(body.minWorkAssets) || 0;
   body.maxWorkAssets = parseInt(body.maxWorkAssets) || 10;
+  body.ratingRound = parseInt(body.ratingRound) || 1;
   body.ratingScopes = body.ratingScopes.map(scope => ({...scope, weight: parseInt(scope.weight)}));
   body.questions = body.questions.map(question => ({...question, validations: { ...question.validations, minWords: parseInt(question.validations.minWords), maxWords: parseInt(question.validations.maxWords) }}));
 

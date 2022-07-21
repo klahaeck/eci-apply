@@ -8,6 +8,7 @@ import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin } from '../../../lib/users';
 import Layout from '../../../layouts/Main';
 // import { meta } from '../../data';
+// import Alerts from '../../../components/Alerts';
 import FormProgram from '../../../components/FormProgram';
 import ToolbarProgram from '../../../Components/ToolbarProgram';
 
@@ -28,6 +29,7 @@ const ProgramEdit = () => {
         {!error && !program && <div>Loading...</div>}
         {!error && program && <>
           <ToolbarProgram program={program} />
+          {/* <Alerts position="program" /> */}
           <FormProgram program={program} />
         </>}
       </Container>
