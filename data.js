@@ -34,7 +34,8 @@ export const defaultProgram = {
   jurorInfo: '',
   confirmationEmail: '',
   questions: [],
-  currentRatingRound: 0,
+  ratingRound: 1,
+  panelActive: false,
   ratingScopes: [
     { id: 0, attribute: 'overall', weight: 100 }
   ]
@@ -87,6 +88,7 @@ export const defaultSubmission = {
   },
   eligible: true,
   submitted: false,
+  finalist: false,
 };
 
 export const grantAmounts = [

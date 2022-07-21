@@ -16,9 +16,9 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
   });
 
   useEffect(() => {
-    const currentRoundRating = submission.ratings?.filter(rating => rating.round === program.ratingRound);
-    setMyRating(currentRoundRating.length > 0 ? currentRoundRating[0].rate : null);
-    replaceScopes(currentRoundRating.length > 0 ? currentRoundRating[0].scopes : program.ratingScopes);
+    const currentRoundRating = submission.ratings?.find(rating => rating.round === program.ratingRound);
+    setMyRating(currentRoundRating ? currentRoundRating.rate : null);
+    replaceScopes(currentRoundRating ? currentRoundRating.scopes : program.ratingScopes);
   }, [program.ratingRound, program.ratingScopes, submission, replaceScopes]);
 
   useEffect(() => {

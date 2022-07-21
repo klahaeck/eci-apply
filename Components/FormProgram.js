@@ -28,7 +28,7 @@ const FormProgram = ({ program }) => {
 
   const router = useRouter();
 
-  const { getValues, handleSubmit, control, formState: { errors } } = useForm({
+  const { handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       ...formData,
       campaign: campaignOptions.find(c => c.value === formData.campaign)
@@ -373,6 +373,15 @@ const FormProgram = ({ program }) => {
         </Tab>
 
         <Tab eventKey="jurorTools" title="Juror Tools">
+          <Form.Group className="my-3">
+            <Controller
+              control={control}
+              name="panelActive"
+              defaultValue={formData.panelActive}
+              render={({ field }) => <Form.Check {...field} type="switch" label="Panel Active" defaultChecked={formData.panelActive} />}
+            />
+          </Form.Group>
+          
           <Form.Group className="mb-3">
             <Form.Label>Current Rating Round</Form.Label>
             <Controller

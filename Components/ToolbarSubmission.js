@@ -8,7 +8,7 @@ import {
   Button
 } from 'react-bootstrap';
 import { validateSubmission } from '../lib/validate';
-import { isJuror } from '../lib/users';
+import { isAdmin, isJuror } from '../lib/users';
 
 const ToolbarSubmission = ({ program, submission }) => {
   const router = useRouter();
@@ -67,7 +67,7 @@ const ToolbarSubmission = ({ program, submission }) => {
 
   return (
     <Navbar bg="dark" variant="dark">
-      {isJuror(user) && <Nav className="ms-auto px-2">
+      {(isAdmin(user) || isJuror(user)) && <Nav className="ms-auto px-2">
         <Nav.Item className="mx-1">
           <Button variant="secondary" size="sm" onClick={() => navigatePrevNext('next')}>Prev</Button>
         </Nav.Item>

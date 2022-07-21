@@ -1,20 +1,26 @@
 import Head from 'next/head';
-import useProgram from '../../../hooks/useProgram';
+import useSWR from 'swr';
+import fetcher from '../../../lib/fetcher';
 import { useRouter } from 'next/router';
 import {
   Container,
 } from 'react-bootstrap';
 import Layout from '../../../layouts/Main';
 import ToolbarProgram from '../../../Components/ToolbarProgram';
+import SubmissionIndex from '../../../Components/SubmissionIndex';
+import PaginationSubmissions from '../../../Components/PaginationSubmissions';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import { isAdmin } from '../../../lib/users';
-// import { meta } from '../../../data';
+import { isAdmin, isJuror } from '../../../lib/users';
+import useQueryParams from '../../../hooks/useQueryParams';
 
-const ProgramPanel = () => {
+const Panel = ({ user }) => {
   const router = useRouter();
   const { campaign, slug } = router.query;
+  const { queryParams } = useQueryParams();
+  const { sortBy, sortOrder, s: searchQuery, perPage, pageNumber } = queryParams;
 
-  const { program, error } = useProgram({ campaign, slug });
+  const { data: program, error: errorProgram } = useSWR(`/api/programs/${campaign}/${slug}`, fetcher);
+  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber }] : null, fetcher);
 
   return (
     <Layout>
@@ -23,11 +29,13 @@ const ProgramPanel = () => {
       </Head>
 
       <Container fluid>
-        {error && <div>Failed to load</div>}
-        {!error && !program && <div>Loading...</div>}
-        {!error && program && <>
-          <ToolbarProgram program={program} />
-          <div dangerouslySetInnerHTML={{ __html: program.description }}></div>
+        {(errorProgram || errorSubmissions) && <div>Failed to load</div>}
+        {(!program || !submissions) && <div>Loading...</div>}
+        {program && submissions && <>
+          <ToolbarProgram program={program} showSearch={true} />
+          <SubmissionIndex user={user} program={program} submissions={submissions} mutate={mutate} />
+
+          {submissions.totalPages > 1 && <PaginationSubmissions totalPages={submissions.totalPages} />}
         </>}
       </Container>
     </Layout>
@@ -37,7 +45,7 @@ const ProgramPanel = () => {
 export const getServerSideProps = withPageAuthRequired({
   getServerSideProps: async ({ req, res }) => {
     const { user } = getSession(req, res);
-    if (!user || !isAdmin(user)) {
+    if (!user || (!isAdmin(user) && !isJuror(user))) {
       return {
         redirect: {
           destination: '/',
@@ -52,4 +60,4 @@ export const getServerSideProps = withPageAuthRequired({
   },
 });
 
-export default ProgramPanel;
+export default Panel;

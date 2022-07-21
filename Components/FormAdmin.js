@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 const FormAdmin = ({ submission, onSubmit }) => {
-  const { submitted, eligible } = submission;
+  const { submitted, eligible, finalist } = submission;
   const { handleSubmit, control, formState: { errors } } = useForm();
 
   return (

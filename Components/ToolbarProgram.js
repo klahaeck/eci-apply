@@ -45,7 +45,7 @@ const ToolbarProgram = ({ program, showSearch }) => {
         {!user && <Nav.Item>
           <span className="text-light">Login to create your submission</span>
         </Nav.Item>}
-        {user && isAdmin(user) && <Nav.Item className="mx-1">
+        {user && (isAdmin(user) || (isJuror(user) && program.panelActive)) && <Nav.Item className="mx-1">
           <Link href={`/${campaign}/${slug}/panel`} passHref>
             <Button variant="success" size="sm">Panel View</Button>
           </Link>
