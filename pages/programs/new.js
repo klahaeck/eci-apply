@@ -2,7 +2,7 @@ import Head from 'next/head';
 import {
   Container,
 } from 'react-bootstrap';
-import Layout from '../../layouts/Main';
+import Main from '../../layouts/Main';
 // import { meta } from '../../data';
 import FormProgram from '../../components/FormProgram';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
@@ -10,7 +10,7 @@ import { isAdmin } from '../../lib/users';
 
 const ProgramNew = () => {
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - New Program</title>
         {/* <meta property="og:url"             content={`${meta.url}/word/${word.slug}`} key="og:url" />
@@ -25,7 +25,7 @@ const ProgramNew = () => {
       <Container fluid>
         <FormProgram />
       </Container>
-    </Layout>
+    </Main>
   );
 };
 

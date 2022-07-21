@@ -5,7 +5,7 @@ import useSubmission from '../../../hooks/useSubmission';
 import {
   Container,
 } from 'react-bootstrap';
-import Layout from '../../../layouts/Main';
+import Main from '../../../layouts/Main';
 // import ProgramToolbar from '../../../Components/ProgramToolbar';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Submission from '../../../Components/Submission';
@@ -19,7 +19,7 @@ const ProgramApply = withPageAuthRequired(() => {
   const { mutate, submission, error: errorSubmission } = useSubmission({ programId: program?._id });
   
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - {campaign} {slug}</title>
       </Head>
@@ -32,7 +32,7 @@ const ProgramApply = withPageAuthRequired(() => {
           <Submission program={program} submission={submission} mutate={mutate} />
         </>}
       </Container>
-    </Layout>
+    </Main>
   );
 });
 

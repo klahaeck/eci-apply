@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import {
   Container,
 } from 'react-bootstrap';
-import Layout from '../../../layouts/Main';
+import Main from '../../../layouts/Main';
 import ToolbarProgram from '../../../Components/ToolbarProgram';
 // import { meta } from '../../../data';
 
@@ -15,7 +15,7 @@ const Slug = () => {
   const { program, error } = useProgram({ campaign, slug });
 
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - {campaign} {slug}</title>
       </Head>
@@ -28,7 +28,7 @@ const Slug = () => {
           <div dangerouslySetInnerHTML={{ __html: program.description }}></div>
         </>}
       </Container>
-    </Layout>
+    </Main>
   );
 };
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import {
   Container,
 } from 'react-bootstrap';
-import Layout from '../../../layouts/Main';
+import Main from '../../../layouts/Main';
 import ToolbarProgram from '../../../Components/ToolbarProgram';
 import SubmissionIndex from '../../../Components/SubmissionIndex';
 import PaginationSubmissions from '../../../Components/PaginationSubmissions';
@@ -23,7 +23,7 @@ const Panel = ({ user }) => {
   const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber }] : null, fetcher);
 
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - {campaign} {slug}</title>
       </Head>
@@ -38,7 +38,7 @@ const Panel = ({ user }) => {
           {submissions.totalPages > 1 && <PaginationSubmissions totalPages={submissions.totalPages} />}
         </>}
       </Container>
-    </Layout>
+    </Main>
   );
 };
 

@@ -5,7 +5,7 @@ import {
   Container
 } from 'react-bootstrap';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import Layout from '../../layouts/Main';
+import Main from '../../layouts/Main';
 import ProgramList from '../../Components/ProgramList';
 import { isAdmin } from '../../lib/users';
 // import { meta } from '../../data';
@@ -14,7 +14,7 @@ const Programs = () => {
   const { data: programs, error } = useSWR('/api/programs', fetcher);
   
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - Programs</title>
       </Head>
@@ -24,7 +24,7 @@ const Programs = () => {
         {!error && !programs && <div>Loading...</div>}
         {programs?.length && <ProgramList programs={programs} />}
       </Container>
-    </Layout>
+    </Main>
   );
 };
 

@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin } from '../../../lib/users';
-import Layout from '../../../layouts/Main';
+import Main from '../../../layouts/Main';
 // import { meta } from '../../data';
 // import Alerts from '../../../components/Alerts';
 import FormProgram from '../../../components/FormProgram';
@@ -19,7 +19,7 @@ const ProgramEdit = () => {
   const { program, error } = useProgram({ campaign, slug });
 
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - {campaign} {slug}</title>
       </Head>
@@ -33,7 +33,7 @@ const ProgramEdit = () => {
           <FormProgram program={program} />
         </>}
       </Container>
-    </Layout>
+    </Main>
   );
 };
 

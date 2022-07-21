@@ -3,13 +3,13 @@ import {
   // Row,
   // Col,
 } from 'react-bootstrap';
-import Layout from '../layouts/Main';
+import Main from '../layouts/Main';
 
 const Home = (props) => {
   return (
-    <Layout>
+    <Main>
       <Container fluid></Container>
-    </Layout>
+    </Main>
   )
 }
 

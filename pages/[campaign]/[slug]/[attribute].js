@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import {
   Container,
 } from 'react-bootstrap';
-import Layout from '../../../layouts/Main';
+import Main from '../../../layouts/Main';
 import ToolbarProgram from '../../../Components/ToolbarProgram';
 // import { meta } from '../../../data';
 
@@ -27,7 +27,7 @@ const Attributes = () => {
   }
 
   return (
-    <Layout>
+    <Main>
       <Head>
         <title>VAF - {campaign} {slug}</title>
       </Head>
@@ -40,7 +40,7 @@ const Attributes = () => {
           {getContent()}
         </>}
       </Container>
-    </Layout>
+    </Main>
   );
 };
 
