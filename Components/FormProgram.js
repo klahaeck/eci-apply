@@ -14,6 +14,7 @@ import {
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
+import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle';
 import { stripHtml } from 'string-strip-html';
 import { campaigns, defaultProgram, defaultQuestion, defaultScope } from '../data';
 
@@ -31,6 +32,8 @@ const FormProgram = ({ program }) => {
   const { handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       ...formData,
+      startDate: new Date(formData.startDate),
+      endDate: new Date(formData.endDate),
       campaign: campaignOptions.find(c => c.value === formData.campaign)
     }
   });
@@ -131,7 +134,7 @@ const FormProgram = ({ program }) => {
                   required: true,
                   valueAsDate: true,
                 }}
-                render={({ field }) => <Form.Control {...field} type="datetime-local" placeholder="Start date" />}
+                render={({ field }) => <div className="card p-1"><DateTimePicker {...field} /></div>}
               />
               {errors.startDate?.type === 'required' && <Form.Text className="text-danger">A start date is required</Form.Text>}
             </Form.Group>
@@ -145,7 +148,7 @@ const FormProgram = ({ program }) => {
                   required: true,
                   valueAsDate: true,
                 }}
-                render={({ field }) => <Form.Control {...field} type="datetime-local" placeholder="End date" />}
+                render={({ field }) => <div className="card p-1"><DateTimePicker {...field} /></div>}
               />
               {errors.endDate?.type === 'required' && <Form.Text className="text-danger">An end date is required</Form.Text>}
             </Form.Group>

@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0';
 import useQueryParams from '../hooks/useQueryParams';
 import { useRoot } from '../contexts/RootContext';
@@ -11,12 +11,14 @@ import { validateSubmission } from '../lib/validate';
 import { isAdmin, isJuror } from '../lib/users';
 
 const ToolbarSubmission = ({ program, submission }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const { user } = useUser();
   const { campaign, slug } = program;
   const { queryParams } = useQueryParams();
   const { sortBy, sortOrder } = queryParams;
   const { addAlert, clearAlerts } = useRoot();
+
+  const now = new Date();
 
   const handlErrors = (errors) => {
     const errorMsgs = `<ul>${errors.map(error => `<li>${error}</li>`).join('')}</ul>`;
@@ -76,8 +78,14 @@ const ToolbarSubmission = ({ program, submission }) => {
         </Nav.Item>
       </Nav>}
       {user.sub === submission.userId && <Nav className="ms-auto px-2">
-        {!submission.submitted && <Nav.Item className="mx-1">
+        {now < new Date(program.startDate) && <Nav.Item>
+          <span className="px-3 text-light">We are not yet accepting applications</span>
+        </Nav.Item>}
+        {!submission.submitted && now >= new Date(program.startDate) && now < new Date(program.endDate) && <Nav.Item className="mx-1">
           <Button variant="success" size="sm" onClick={() => handleSubmit()}>Submit</Button>
+        </Nav.Item>}
+        {!submission.submitted && now > new Date(program.endDate) && <Nav.Item className="mx-1">
+          <span className="text-light">The deadline for this submission has passed</span>
         </Nav.Item>}
         {submission.submitted && <Nav.Item>
           <span className="text-light">Your application has been submitted</span>

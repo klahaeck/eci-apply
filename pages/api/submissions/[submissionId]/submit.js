@@ -36,6 +36,14 @@ handler.put(withApiAuthRequired(async (req, res) => {
   if (errorKeys.length) {
     return res.status(400).send({ errors: errorKeys.map(key => errors[key]) });
   }
+
+  if (now < program.startDate) {
+    return res.status(403).send({ errors: ['we are not yet accepting submissions for this program'] });
+  }
+  
+  if (now > program.endDate) {
+    return res.status(403).send({ errors: ['The deadline for this submission has passed'] });
+  }
   
   const document = await db.collection('submissions').updateOne({ _id: ObjectId(submissionId), userId }, { $set: { submitted: true, submittedAt: now } });
   if (document.acknowledged) {

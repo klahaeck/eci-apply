@@ -21,8 +21,16 @@ const ToolbarProgram = ({ program, showSearch }) => {
 
   const onSubmit = async data => setQueryParams({ s: !isEmpty(data.searchQuery) ? data.searchQuery : undefined });
 
+  const now = new Date();
+
   return (
     <Navbar bg="dark" variant="dark">
+      {now < new Date(program.startDate) && <Nav.Item>
+        <span className="px-3 text-light">We are not yet accepting applications</span>
+      </Nav.Item>}
+      {now > new Date(program.endDate) && <Nav.Item>
+        <span className="px-3 text-light">The deadline for submissions has passed</span>
+      </Nav.Item>}
       {showSearch && <Nav className="px-2">
         <Nav.Item>
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -56,7 +64,7 @@ const ToolbarProgram = ({ program, showSearch }) => {
           </Link>
         </Nav.Item>}
         
-        {user && !isAdmin(user) && !isJuror(user) && <Nav.Item className="mx-1">
+        {user && !isAdmin(user) && !isJuror(user) && now >= new Date(program.startDate) && now <= new Date(program.endDate) && <Nav.Item className="mx-1">
           <Link href={`/${campaign}/${slug}/apply`} passHref>
             <Button variant="primary" size="sm">My Submission</Button>
           </Link>

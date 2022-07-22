@@ -36,8 +36,8 @@ handler.put(withApiAuthRequired(async (req, res) => {
   delete body.createdAt;
 
   body.updatedAt = new Date();
-  // body.startDate = new Date(body.startDate);
-  // body.endDate = new Date(body.endDate);
+  body.startDate = new Date(body.startDate);
+  body.endDate = new Date(body.endDate);
   body.slug = slugify(body.title, { lower: true });
   body.minWorkAssets = parseInt(body.minWorkAssets) || 0;
   body.maxWorkAssets = parseInt(body.maxWorkAssets) || 10;
