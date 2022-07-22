@@ -1,6 +1,6 @@
 import MetaTags from '../components/MetaTags';
 import { meta } from '../data';
-import LocalAlerts from '../components/Alerts';
+import Alerts from '../components/Alerts';
 import Menubar from '../components/Menubar';
 import Toasts from '../components/Toasts';
 import SiteModal from '../components/SiteModal';
@@ -12,7 +12,7 @@ const Main = ({ className, children }) => {
       <MetaTags meta={meta} />
       <Menubar />
       <Toasts />
-      <LocalAlerts position="global" />
+      <Alerts position="global" />
 
       { children }
       <Footer />
