@@ -6,9 +6,9 @@ import {
   Container,
 } from 'react-bootstrap';
 import Main from '../../../layouts/Main';
-import ToolbarProgram from '../../../Components/ToolbarProgram';
-import SubmissionIndex from '../../../Components/SubmissionIndex';
-import PaginationSubmissions from '../../../Components/PaginationSubmissions';
+import ToolbarProgram from '../../../components/ToolbarProgram';
+import SubmissionIndex from '../../../components/SubmissionIndex';
+import PaginationSubmissions from '../../../components/PaginationSubmissions';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { isAdmin, isJuror } from '../../../lib/users';
 import useQueryParams from '../../../hooks/useQueryParams';

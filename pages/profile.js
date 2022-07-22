@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import Main from '../layouts/Main';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import ProfileForm from '../Components/ProfileForm';
+import ProfileForm from '../components/ProfileForm';
 
 const PageProfile = withPageAuthRequired(({ user }) => {
   const { data: user_metadata, error } = useSWR(user ? `/api/users/${user.sub}` : null, fetcher);

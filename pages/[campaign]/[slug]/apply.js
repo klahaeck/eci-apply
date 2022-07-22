@@ -8,7 +8,7 @@ import {
 import Main from '../../../layouts/Main';
 // import ProgramToolbar from '../../../Components/ProgramToolbar';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import Submission from '../../../Components/Submission';
+import Submission from '../../../components/Submission';
 // import { meta } from '../../../data';
 
 const ProgramApply = withPageAuthRequired(() => {

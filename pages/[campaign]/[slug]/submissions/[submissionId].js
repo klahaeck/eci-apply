@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import Main from '../../../../layouts/Main';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import Submission from '../../../../Components/Submission';
+import Submission from '../../../../components/Submission';
 
 const SubmissionById = withPageAuthRequired(() => {
   const router = useRouter();

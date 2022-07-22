@@ -5,7 +5,7 @@ import {
   Container,
 } from 'react-bootstrap';
 import Main from '../../../layouts/Main';
-import ToolbarProgram from '../../../Components/ToolbarProgram';
+import ToolbarProgram from '../../../components/ToolbarProgram';
 // import { meta } from '../../../data';
 
 const Slug = () => {

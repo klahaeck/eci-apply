@@ -10,7 +10,7 @@ import Main from '../../../layouts/Main';
 // import { meta } from '../../data';
 // import Alerts from '../../../components/Alerts';
 import FormProgram from '../../../components/FormProgram';
-import ToolbarProgram from '../../../Components/ToolbarProgram';
+import ToolbarProgram from '../../../components/ToolbarProgram';
 
 const ProgramEdit = () => {
   const router = useRouter()

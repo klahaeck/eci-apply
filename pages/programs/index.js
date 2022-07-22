@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import Main from '../../layouts/Main';
-import ProgramList from '../../Components/ProgramList';
+import ProgramList from '../../components/ProgramList';
 import { isAdmin } from '../../lib/users';
 // import { meta } from '../../data';
 

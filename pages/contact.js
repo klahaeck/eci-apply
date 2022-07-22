@@ -1,15 +1,15 @@
 import {
   Container
 } from 'react-bootstrap';
-import Layout from '../layouts/Main';
+import Main from '../layouts/Main';
 
 const PageContact = () => {
   return (
-    <Layout>
+    <Main>
       <Container fluid>
         <h2>This is the contact page</h2>
       </Container>
-    </Layout>
+    </Main>
   );
 };
 
