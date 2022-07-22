@@ -15,18 +15,18 @@ const FormAdmin = ({ submission, onSubmit }) => {
         <Form.Group className="my-3">
           <Controller
             control={control}
-            name="submitted"
-            defaultValue={submitted}
-            render={({ field }) => <Form.Check {...field} type="switch" label="Submitted" defaultChecked={submitted} />}
+            name="eligible"
+            defaultValue={eligible}
+            render={({ field }) => <Form.Check {...field} type="switch" label="Eligible" defaultChecked={eligible} />}
           />
         </Form.Group>
 
         <Form.Group className="my-3">
           <Controller
             control={control}
-            name="eligible"
-            defaultValue={eligible}
-            render={({ field }) => <Form.Check {...field} type="switch" label="Eligible" defaultChecked={eligible} />}
+            name="submitted"
+            defaultValue={submitted}
+            render={({ field }) => <Form.Check {...field} type="switch" label="Submitted" defaultChecked={submitted} />}
           />
         </Form.Group>
 
