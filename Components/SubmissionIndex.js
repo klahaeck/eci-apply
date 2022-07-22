@@ -43,23 +43,23 @@ const SubmissionIndex = ({ user, program, submissions, mutate }) => {
   const getSubmissions = submissions?.data ? submissions.data : submissions;
 
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover responsive>
       <thead>
         <tr>
-          {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           <th>User</th>
           <th>Title</th>
           <th>Work Samples</th>
           {isJuror(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('myRating'); }}>My Rating {sortBy === 'myRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('avgRating'); }}>Avg. Rating {sortBy === 'avgRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {isAdmin(user) && <th>Eligible</th>}
+          {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('submitted'); }}>Submitted {sortBy === 'submitted' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
+          {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {isAdmin(user) && <th className="text-end">Tools</th>}
         </tr>
       </thead>
       <tbody>
         {submissions && getSubmissions.map((submission, index) => (
           <tr key={index}>
-            {isAdmin(user) && <td className={submission.finalist ? 'text-success' : ''}>{submission.finalist ? String.fromCodePoint(0x2b50) : ''}</td>}
             <td>{submission.contacts.map(contact => contact.name).join(', ')}</td>
             <td>
               <a href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>
@@ -69,12 +69,14 @@ const SubmissionIndex = ({ user, program, submissions, mutate }) => {
             <td>{submission.assetsCount}</td>
             {isJuror(user) && <td>{getMyRating(submission.ratings)}</td>}
             {isAdmin(user) && <td>{submission.avgRating}</td>}
-            {isAdmin(user) && <td className={!submission.eligible ? 'text-danger' : 'text-success'}>{submission.eligible.toString()}</td>}
+            {isAdmin(user) && <td className={submission.eligible ? 'text-success' : 'text-danger'}>{submission.eligible.toString()}</td>}
+            {isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
+            {isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}
             {isAdmin(user) && <td className="text-end">
               {/* <Button variant="info" size="sm" href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>Show</Button> */}
               {isAdmin(user) && <Button variant={submission.finalist ? 'success' : 'light'} size="sm" className="ms-1" onClick={() => toggleFinalist(submission._id, !submission.finalist)}>Finalist</Button>}
 
-              {isAdmin(user) && <Button variant="danger" size="sm" className="ms-1" onClick={() => removeSubmission(submission._id)}>Destroy</Button>}
+              {isAdmin(user) && <Button variant="danger" size="sm" className="ms-1" onClick={() => removeSubmission(submission._id)}><i className="bi bi-trash-fill"></i></Button>}
             </td>}
           </tr>
         ))}

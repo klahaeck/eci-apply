@@ -7,7 +7,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/vaf/testing-one',
+        destination: '/vaf/2022',
         permanent: false,
       },
     ]

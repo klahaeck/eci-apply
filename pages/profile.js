@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import useSWR from 'swr';
 import fetcher from '../lib/fetcher';
 import {
@@ -12,6 +13,10 @@ const PageProfile = withPageAuthRequired(({ user }) => {
 
   return (
     <Main>
+      <Head>
+        <title>VAF - Profile</title>
+      </Head>
+
       <Container fluid>
         {/* <h2>This is the profile page</h2> */}
         {error && <div>Failed to load</div>}

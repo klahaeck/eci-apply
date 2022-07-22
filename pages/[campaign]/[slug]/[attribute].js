@@ -29,7 +29,7 @@ const Attributes = () => {
   return (
     <Main>
       <Head>
-        <title>VAF - {campaign} {slug}</title>
+        <title>VAF - {campaign?.toLowerCase() === 'vaf' ? slug : `${campaign} ${slug}`}</title>
       </Head>
 
       <Container fluid>
