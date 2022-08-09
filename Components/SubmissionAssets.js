@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import { Table, Button, Stack } from 'react-bootstrap';
@@ -6,10 +7,14 @@ import { isAdmin } from '../lib/users';
 import FormImage from './FormImage';
 import FormVideo from './FormVideo';
 import FormWebsite from './FormWebsite';
+import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
 
 const SubmissionAssets = ({ submission, mutate }) => {
   const { user } = useUser();
   const { showModal, hideModal, openForm } = useRoot();
+  const [ assets, setAssets ] = useState(submission.assets);
+  const assetsLoaded = useRef(null);
 
   const onSubmitAssets = () => {
     mutate();
@@ -27,6 +32,56 @@ const SubmissionAssets = ({ submission, mutate }) => {
       mutate();
     }
   };
+
+  const DragHandle = SortableHandle(() => <i className="bi-list fs-2" role="button"></i>);
+
+  const SortableItem = SortableElement(({value}) => <tr>
+    {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td width="20"><DragHandle /></td>}
+    <td>{getAssetLink(value)}</td>
+    <td>{value.title}</td>
+    <td>{value.artist}</td>
+    <td>{value.year}</td>
+    <td>{value.dimensions || value.duration}</td>
+    <td style={{whiteSpace: 'pre-line'}}>{value.description}</td>
+    {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td>
+      <Stack direction="horizontal" gap={1} className="justify-content-end">
+        <Button variant="warning" size="sm" onClick={() => editAsset(value)}><i className="bi bi-pencil-fill"></i></Button>
+        <Button variant="danger" size="sm" onClick={() => deleteAsset(value._id)}><i className="bi bi-trash-fill"></i></Button>
+      </Stack>
+    </td>}
+  </tr>);
+
+  const SortableList = SortableContainer(({items}) => {
+    return (
+      <tbody>
+        {items.map((value, index) => <SortableItem key={`asset-${value._id}`} index={index} value={value} />)}
+      </tbody>
+    );
+  });
+
+  const onSortEnd = async ({oldIndex, newIndex}) => {
+    assetsLoaded.current = true;
+    setAssets(arrayMoveImmutable(assets, oldIndex, newIndex));
+  };
+
+  useEffect(() => {
+
+    if (assetsLoaded.current) {
+      const sortedAssets = assets.map((asset, index) => {
+        return {
+          _id: asset._id,
+          position: index
+        }
+      });
+      fetch('/api/assets/sort', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId: user.sub, assets: sortedAssets })
+      });
+    }
+  }, [assets]);
 
   const getAssetLink = (asset) => {
     return asset.type === 'image' ? <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} role="button" onClick={() => showModal({size: 'lg', body: <img src={asset.imageURL} alt={asset.title} className="img-fluid" />})} />
@@ -50,25 +105,7 @@ const SubmissionAssets = ({ submission, mutate }) => {
             {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <th className="text-end">Tools</th>}
           </tr>
         </thead>
-        <tbody>
-          {submission.assets.map((asset, index) => (
-            <tr key={index}>
-              {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td width="20"><i className="bi-list fs-2" role="button"></i></td>}
-              <td>{getAssetLink(asset)}</td>
-              <td>{asset.title}</td>
-              <td>{asset.artist}</td>
-              <td>{asset.year}</td>
-              <td>{asset.dimensions || asset.duration}</td>
-              <td style={{whiteSpace: 'pre-line'}}>{asset.description}</td>
-              {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td>
-                <Stack direction="horizontal" gap={1} className="justify-content-end">
-                  <Button variant="warning" size="sm" onClick={() => editAsset(asset)}><i className="bi bi-pencil-fill"></i></Button>
-                  <Button variant="danger" size="sm" onClick={() => deleteAsset(asset._id)}><i className="bi bi-trash-fill"></i></Button>
-                </Stack>
-              </td>}
-            </tr>
-          ))}
-        </tbody>
+        <SortableList items={assets} onSortEnd={onSortEnd} useDragHandle={true} />
       </Table>}
       {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Stack direction="horizontal" gap={1}>
         <Button variant="primary" onClick={() => openForm('Add Image', <FormImage submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Image</Button>
