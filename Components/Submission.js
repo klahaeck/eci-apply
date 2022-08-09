@@ -13,7 +13,7 @@ import SubmissionAssets from './SubmissionAssets';
 import FormAdmin from './FormAdmin';
 import ToolbarSubmission from './ToolbarSubmission';
 
-const Submission = ({ program, submission, mutate }) => {
+const Submission = ({ program, submission, mutate, isPanel = false }) => {
   const { user } = useUser();
   const { hideModal } = useRoot();
 
@@ -37,7 +37,7 @@ const Submission = ({ program, submission, mutate }) => {
 
   return (
     <>
-      <ToolbarSubmission program={program} submission={submission} />
+      <ToolbarSubmission program={program} submission={submission} isPanel={isPanel} />
       {(isJuror(user) || isAdmin(user)) && <JuryTools program={program} submission={submission} mutate={mutate} />}
 
       {/* <Alerts position="submission" dismissible={false} /> */}

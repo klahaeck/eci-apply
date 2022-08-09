@@ -6,7 +6,7 @@ import {
   Button,
 } from 'react-bootstrap';
 
-const SubmissionIndex = ({ user, program, submissions, mutate }) => {
+const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }) => {
   const { queryParams, setQueryParams, structure, encodeQueryParams } = useQueryParams();
   const { sortBy, sortOrder, s: searchQuery, perPage, pageNumber } = queryParams;
 
@@ -51,10 +51,10 @@ const SubmissionIndex = ({ user, program, submissions, mutate }) => {
           <th>Work Samples</th>
           {isJuror(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('myRating'); }}>My Rating {sortBy === 'myRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('avgRating'); }}>Avg. Rating {sortBy === 'avgRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
-          {isAdmin(user) && <th>Eligible</th>}
-          {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('submitted'); }}>Submitted {sortBy === 'submitted' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
-          {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
-          {isAdmin(user) && <th className="text-end">Tools</th>}
+          {!isPanel && isAdmin(user) && <th>Eligible</th>}
+          {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('submitted'); }}>Submitted {sortBy === 'submitted' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
+          {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
+          {!isPanel && isAdmin(user) && <th className="text-end">Tools</th>}
         </tr>
       </thead>
       <tbody>
@@ -62,17 +62,17 @@ const SubmissionIndex = ({ user, program, submissions, mutate }) => {
           <tr key={index}>
             <td>{submission.contacts.map(contact => contact.name).join(', ')}</td>
             <td>
-              <a href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>
+              <a href={`/${program.campaign}/${program.slug}/${isPanel ? 'panel' : 'submissions'}/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>
                 {submission.title}
               </a>
             </td>
             <td>{submission.assetsCount}</td>
             {isJuror(user) && <td>{getMyRating(submission.ratings)}</td>}
             {isAdmin(user) && <td>{submission.avgRating}</td>}
-            {isAdmin(user) && <td className={submission.eligible ? 'text-success' : 'text-danger'}>{submission.eligible.toString()}</td>}
-            {isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
-            {isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}
-            {isAdmin(user) && <td className="text-end">
+            {!isPanel && isAdmin(user) && <td className={submission.eligible ? 'text-success' : 'text-danger'}>{submission.eligible.toString()}</td>}
+            {!isPanel && isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
+            {!isPanel && isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}
+            {!isPanel && isAdmin(user) && <td className="text-end">
               {/* <Button variant="info" size="sm" href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>Show</Button> */}
               {isAdmin(user) && <Button variant={submission.finalist ? 'success' : 'light'} size="sm" className="ms-1" onClick={() => toggleFinalist(submission._id, !submission.finalist)}>Finalist</Button>}
 

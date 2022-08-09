@@ -1,17 +1,18 @@
 import Head from 'next/head';
 import useSWR from 'swr';
-import fetcher from '../../../lib/fetcher';
+import fetcher from '../../../../lib/fetcher';
 import { useRouter } from 'next/router';
 import {
   Container,
 } from 'react-bootstrap';
-import Main from '../../../layouts/Main';
-import ToolbarProgram from '../../../components/ToolbarProgram';
-import SubmissionIndex from '../../../components/SubmissionIndex';
-import PaginationSubmissions from '../../../components/PaginationSubmissions';
+import Main from '../../../../layouts/Main';
+import ToolbarProgram from '../../../../components/ToolbarProgram';
+import SubmissionIndex from '../../../../components/SubmissionIndex';
+import PaginationSubmissions from '../../../../components/PaginationSubmissions';
 import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0';
-import { isAdmin, isJuror } from '../../../lib/users';
-import useQueryParams from '../../../hooks/useQueryParams';
+import { isAdmin, isJuror } from '../../../../lib/users';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import { useEffect } from 'react';
 
 const Panel = ({ user }) => {
   const router = useRouter();
@@ -20,7 +21,11 @@ const Panel = ({ user }) => {
   const { sortBy, sortOrder, s: searchQuery, perPage, pageNumber } = queryParams;
 
   const { data: program, error: errorProgram } = useSWR(`/api/programs/${campaign}/${slug}`, fetcher);
-  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber }] : null, fetcher);
+  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber, isPanel: true }] : null, fetcher);
+
+  useEffect(() => {
+    if (program && !program.panelActive) router.replace(`/${campaign}/${slug}/submissions/`);
+  }, [program]);
 
   return (
     <Main>
@@ -32,8 +37,8 @@ const Panel = ({ user }) => {
         {(errorProgram || errorSubmissions) && <div>Failed to load</div>}
         {(!program || !submissions) && <div>Loading...</div>}
         {program && submissions && <>
-          <ToolbarProgram program={program} showSearch={true} />
-          <SubmissionIndex user={user} program={program} submissions={submissions} mutate={mutate} />
+          <ToolbarProgram program={program} showSearch={true} isPanel={true} />
+          <SubmissionIndex user={user} program={program} submissions={submissions} mutate={mutate} isPanel={true} />
 
           {submissions.totalPages > 1 && <PaginationSubmissions totalPages={submissions.totalPages} />}
         </>}

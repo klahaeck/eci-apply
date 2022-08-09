@@ -21,11 +21,11 @@ const Menubar = () => {
 
   const { user } = useUser();
 
-  const { data: programs } = useSWR(campaign && slug ? `/api/programs/${campaign}/${slug}` : !campaign && !slug ? '/api/programs' : null, fetcher);
+  const { data: program } = useSWR(campaign && slug ? `/api/programs/${campaign}/${slug}` : !campaign && !slug ? '/api/programs' : null, fetcher);
 
   return (
     <Container fluid>
-      <Navbar bg="transparent" variant="light" collapseOnSelect expand="md" className={!programs?.length ? 'border-bottom border-3 border-dark' : ''}>
+      {program && <Navbar bg="transparent" variant="light" collapseOnSelect expand="md" className="border-bottom border-3 border-dark">
         <Navbar.Brand href="/">{meta.title}</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -39,8 +39,11 @@ const Menubar = () => {
             {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/juror-info`} passHref>
               <Nav.Link>Juror Info</Nav.Link>
             </Link>}
-            {user && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/submissions?${stringify(encodeQueryParams(structure, queryParams))}`} passHref>
+            {user && (isAdmin(user) || (isJuror(user) && !program.panelActive)) && <Link href={`/${campaign}/${slug}/submissions?${stringify(encodeQueryParams(structure, queryParams))}`} passHref>
               <Nav.Link>Submissions</Nav.Link>
+            </Link>}
+            {user && program.panelActive && (isAdmin(user) || isJuror(user)) && <Link href={`/${campaign}/${slug}/panel?${stringify(encodeQueryParams(structure, queryParams))}`} passHref>
+              <Nav.Link>Panel</Nav.Link>
             </Link>}
           </Nav>}
           <Nav className="ms-auto">
@@ -57,7 +60,7 @@ const Menubar = () => {
             </NavDropdown>}
           </Nav>
         </Navbar.Collapse>
-      </Navbar>
+      </Navbar>}
     </Container>
   );
 };

@@ -9,8 +9,9 @@ import {
 } from 'react-bootstrap';
 import { validateSubmission } from '../lib/validate';
 import { isAdmin, isJuror } from '../lib/users';
+// import { Router } from 'next/router';
 
-const ToolbarSubmission = ({ program, submission }) => {
+const ToolbarSubmission = ({ program, submission, isPanel }) => {
   // const router = useRouter();
   const { user } = useUser();
   const { campaign, slug } = program;
@@ -54,7 +55,7 @@ const ToolbarSubmission = ({ program, submission }) => {
   };
 
   const navigatePrevNext = async (direction) => {
-    const response = await fetch(`/api/submissions/${submission._id}/navigate?direction=${direction}&sortBy=${sortBy}&sortOrder=${sortOrder}`, {
+    const response = await fetch(`/api/submissions/${submission._id}/navigate?direction=${direction}&sortBy=${sortBy}&sortOrder=${sortOrder}&isPanel=${isPanel}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -62,21 +63,28 @@ const ToolbarSubmission = ({ program, submission }) => {
     });
     const resJSON = await response.json();
     if (resJSON._id) {
-      window.location.href = `/${campaign}/${slug}/submissions/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`;
+      window.location.href = `/${campaign}/${slug}/${isPanel ? 'panel' : 'submissions'}/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`;
       // router.push(`/${campaign}/${slug}/submissions/${resJSON._id}?sortBy=${sortBy}&sortOrder=${sortOrder}`);
     }
-  }
+  };
 
   return (
     <Navbar bg="dark" variant="dark">
-      {(isAdmin(user) || isJuror(user)) && <Nav className="ms-auto px-2">
-        <Nav.Item className="mx-1">
-          <Button variant="secondary" size="sm" onClick={() => navigatePrevNext('next')}>Prev</Button>
-        </Nav.Item>
-        <Nav.Item className="mx-1">
-          <Button variant="secondary" size="sm" onClick={() => navigatePrevNext('prev')}>Next</Button>
-        </Nav.Item>
-      </Nav>}
+      {(isAdmin(user) || isJuror(user)) && <>
+        {isPanel && <Nav className="ms-start px-2">
+          <Nav.Item className="mx-1">
+            <Button variant="secondary" size="sm" href={`/${campaign}/${slug}/panel?sortBy=${sortBy}&sortOrder=${sortOrder}`}>Back to Panel</Button>
+          </Nav.Item>
+        </Nav>}
+        <Nav className="ms-auto px-2">
+          <Nav.Item className="mx-1">
+            <Button variant="secondary" size="sm" onClick={() => navigatePrevNext('next')}>Prev</Button>
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Button variant="primary" size="sm" onClick={() => navigatePrevNext('prev')}>Next</Button>
+          </Nav.Item>
+        </Nav>
+      </>}
       {user.sub === submission.userId && <Nav className="ms-auto px-2">
         {now < new Date(program.startDate) && <Nav.Item>
           <span className="px-3 text-light">We are not yet accepting applications</span>

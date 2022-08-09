@@ -12,13 +12,16 @@ handler.get(withApiAuthRequired(async (req, res) => {
     return res.status(403).send('You do not have permission');
   }
 
-  const { query: { submissionId, sortBy, sortOrder, direction } } = req;
+  const { query: { submissionId, sortBy, sortOrder, direction, isPanel } } = req;
   const thisSortOrder = sortOrder === 'asc' ? 1 : -1;
   // const operator = direction === 'next' ? '$gt' : '$lt';
 
   const { db } = await connectToDatabase();
 
-  const documents = await db.collection('submissions').find({ submitted: true, eligible: true }).sort({ [sortBy]: thisSortOrder }).project({ _id: 1 }).toArray();
+  const query = { submitted: true, eligible: true };
+  if (isPanel === true || isPanel === 'true') query.finalist = true;
+
+  const documents = await db.collection('submissions').find(query).sort({ [sortBy]: thisSortOrder }).project({ _id: 1 }).toArray();
   const thisIndex = findIndex(documents, (document) => document._id.toString() == submissionId);
   const nextIndex = direction === 'next' ? thisIndex + 1 : thisIndex - 1;
   const loopedIndex = nextIndex < 0 ? documents.length - 1 : nextIndex >= documents.length ? 0 : nextIndex;

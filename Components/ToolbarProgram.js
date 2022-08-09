@@ -25,10 +25,10 @@ const ToolbarProgram = ({ program, showSearch }) => {
 
   return (
     <Navbar bg="dark" variant="dark">
-      {now < new Date(program.startDate) && <Nav.Item>
+      {!isAdmin(user) && !isJuror(user) && now < new Date(program.startDate) && <Nav.Item>
         <span className="px-3 text-light">We are not yet accepting applications</span>
       </Nav.Item>}
-      {now > new Date(program.endDate) && <Nav.Item>
+      {!isAdmin(user) && !isJuror(user) && now > new Date(program.endDate) && <Nav.Item>
         <span className="px-3 text-light">The deadline for submissions has passed</span>
       </Nav.Item>}
       {showSearch && <Nav className="px-2">
@@ -53,11 +53,11 @@ const ToolbarProgram = ({ program, showSearch }) => {
         {!user && <Nav.Item>
           <span className="text-light">Login to create your submission</span>
         </Nav.Item>}
-        {user && (isAdmin(user) || (isJuror(user) && program.panelActive)) && <Nav.Item className="mx-1">
+        {/* {user && (isAdmin(user) || (isJuror(user) && program.panelActive)) && <Nav.Item className="mx-1">
           <Link href={`/${campaign}/${slug}/panel`} passHref>
             <Button variant="success" size="sm">Panel View</Button>
           </Link>
-        </Nav.Item>}
+        </Nav.Item>} */}
         {user && isAdmin(user) && <Nav.Item className="mx-1">
           <Link href={`/${campaign}/${slug}/edit`} passHref>
             <Button variant="warning" size="sm">Edit</Button>
