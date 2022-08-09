@@ -55,7 +55,6 @@ const FormImage = ({ submission, assetData, onSubmit, hideModal }) => {
     data.submissionId = submissionId;
     data.type = 'image';
     data.userId = userId;
-    data.position = submission.assets.length;
 
     let formData, url, options;
 

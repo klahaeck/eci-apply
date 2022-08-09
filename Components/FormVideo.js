@@ -24,7 +24,6 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
     data.submissionId = submissionId;
     data.type = 'video';
     data.userId = userId;
-    data.position = submission.assets.length;
 
     const url = assetData?._id ? `/api/assets/${assetData._id}` : '/api/assets';
     const method = assetData?._id ? 'PUT' : 'POST';
