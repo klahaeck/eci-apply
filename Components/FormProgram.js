@@ -89,7 +89,7 @@ const FormProgram = ({ program }) => {
     if (res.status !== 200 && res.status !== 201) {
       addAlert({position: 'global', color: 'danger', msg: 'Something went wrong. Please try again.'});
     } else {
-      addToast({bg: 'success', header: 'Success!', body: 'Program Saved'});
+      // addToast({bg: 'success', header: 'Success!', body: 'Program Saved'});
       router.push(`/${data.campaign}/${data.slug}`);
     }
   };
