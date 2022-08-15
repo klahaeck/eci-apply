@@ -21,9 +21,9 @@ const Footer = () => {
               <div>
                 <Link href="https://www.midwayart.org/vaf/"><a className="text-muted text-decoration-none">about</a></Link>
               </div>
-              <div>
+              {/* <div>
                 <Link href="/contact"><a className="text-muted text-decoration-none">contact</a></Link>
-              </div>
+              </div> */}
               {/* <div>
                 <Link href="/terms"><a className="text-dark text-decoration-none">terms of use</a></Link>
               </div>
