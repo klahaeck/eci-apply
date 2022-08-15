@@ -59,7 +59,7 @@ const SubmissionBudget = ({ submission, onSubmit }) => {
 
       <p className={`h5 text-end ${budgetTotal === 0 ? 'text-success' : 'text-danger'}`}>Difference: <NumberFormat value={budgetTotal} displayType={'text'} thousandSeparator={true} prefix={'$'} /></p>
 
-      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Budget', <FormBudget submission={submission} onSubmit={onSubmit} hideModal={hideModal} />, 'xl', true)}>Edit Budget</Button>}
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Budget', <FormBudget submission={submission} onSubmit={onSubmit} hideModal={hideModal} />, 'xl', true)}>Edit Your Budget</Button>}
     </>
   );
 };

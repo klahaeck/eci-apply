@@ -26,7 +26,7 @@ const SubmissionBios = ({ submission, onSubmit }) => {
           ))}
         </tbody>
       </Table>}
-      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Bios', <FormBios submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Bios</Button>}
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Bios (Limit 5)', <FormBios submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Bios</Button>}
     </>
   );
 };

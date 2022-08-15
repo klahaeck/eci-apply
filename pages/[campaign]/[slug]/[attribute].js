@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import Main from '../../../layouts/Main';
 import ToolbarProgram from '../../../components/ToolbarProgram';
+import startCase from 'lodash/startCase';
 // import { meta } from '../../../data';
 
 const Attributes = () => {
@@ -37,7 +38,10 @@ const Attributes = () => {
         {!error && !program && <div>Loading...</div>}
         {!error && program && <>
           <ToolbarProgram program={program} />
-          {getContent()}
+          <div className="pt-3">
+            <h1 className="fw-bold">{startCase(attribute)}</h1>
+            {getContent()}
+          </div>
         </>}
       </Container>
     </Main>

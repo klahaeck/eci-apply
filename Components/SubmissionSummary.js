@@ -41,7 +41,7 @@ const SubmissionSummary = ({ submission, onSubmit }) => {
           </tr>
         </tbody>
       </Table>
-      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Summary', <FormSummary submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Summary</Button>}
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('', <FormSummary submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Project Summary</Button>}
     </>
   );
 };

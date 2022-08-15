@@ -25,7 +25,10 @@ const Slug = () => {
         {!error && !program && <div>Loading...</div>}
         {!error && program && <>
           <ToolbarProgram program={program} />
-          <div dangerouslySetInnerHTML={{ __html: program.description }}></div>
+          <div className="pt-3">
+            <h1 className="fw-bold">Description</h1>
+            <div dangerouslySetInnerHTML={{ __html: program.description }}></div>
+          </div>
         </>}
       </Container>
     </Main>

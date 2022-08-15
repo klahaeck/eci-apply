@@ -45,7 +45,7 @@ const SubmissionContactInfo = ({ submission, onSubmit }) => {
           </tbody>
         </Table>
       ))}
-      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Contact Info', <FormContactInfo submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Contact Info</Button>}
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Lead Organizer', <FormContactInfo submission={submission} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Contact Info</Button>}
     </>
   );
 };

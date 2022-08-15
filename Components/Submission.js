@@ -51,21 +51,21 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
         </Accordion.Item>
 
         <Accordion.Item eventKey="1">
-          <Accordion.Header><b>Summary</b></Accordion.Header>
+          <Accordion.Header><b>Project Summary</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionSummary submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="2">
-          <Accordion.Header><b>Details</b></Accordion.Header>
+          <Accordion.Header><b>Project Description</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionDetails submission={submission} questions={program.questions} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="3">
-          <Accordion.Header><b>Bios</b></Accordion.Header>
+          <Accordion.Header><b>Bios (Limit 5)</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionBios submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
@@ -79,7 +79,7 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
         </Accordion.Item>
 
         <Accordion.Item eventKey="5">
-          <Accordion.Header><b>Visual Support Materials</b></Accordion.Header>
+          <Accordion.Header><b>Visual Support Materials (10 Required)</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionAssets submission={submission} onSubmit={onSubmit} mutate={mutate} />
           </Accordion.Body>

@@ -24,7 +24,7 @@ const SubmissionDetails = ({ questions, submission, onSubmit }) => {
           </div>
         ))}
       </div>
-      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Edit Details', <FormDetails submission={submission} questions={questions} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Details</Button>}
+      {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Button variant="primary" onClick={() => openForm('Describe your project', <FormDetails submission={submission} questions={questions} onSubmit={onSubmit} hideModal={hideModal} />)}>Edit Project Description</Button>}
     </>
   );
 };
