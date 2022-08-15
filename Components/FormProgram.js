@@ -314,7 +314,7 @@ const FormProgram = ({ program }) => {
                   control={control}
                   // defaultValue={f.placeholder}
                   rules={{
-                    required: true
+                    // required: true
                   }}
                   render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter the placeholder" />}
                 />
@@ -328,7 +328,7 @@ const FormProgram = ({ program }) => {
                   control={control}
                   // defaultValue={f.helperText}
                   rules={{
-                    required: true
+                    // required: true
                   }}
                   render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter the helper text" />}
                 />
@@ -350,7 +350,7 @@ const FormProgram = ({ program }) => {
                     control={control}
                     // defaultValue={f.validations.minWords}
                     rules={{
-                      required: true
+                      // required: true
                     }}
                     render={({ field }) => <Form.Control {...field} type="number" placeholder="" />}
                   />
@@ -363,7 +363,7 @@ const FormProgram = ({ program }) => {
                     control={control}
                     // defaultValue={f.validations.maxWords}
                     rules={{
-                      required: true
+                      // required: true
                     }}
                     render={({ field }) => <Form.Control {...field} type="number" placeholder="" />}
                   />
