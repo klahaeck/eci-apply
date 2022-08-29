@@ -26,11 +26,22 @@ const FormDetails = ({ questions, submission, onSubmit, hideModal }) => {
             defaultValue={q.answer}
             rules={{
               required: q.validations.required,
-              // pattern: /^[A-Za-z]+$/
+              validate: {
+                minWords: (value) => {
+                  const words = value.split(' ');
+                  return q.validations.minWords ? words.length >= q.validations.minWords : true;
+                },
+                maxWords: (value) => {
+                  const words = value.split(' ');
+                  return q.validations.maxWords ? words.length <= q.validations.maxWords : true;
+                }
+              }
             }}
             render={({ field }) => <Form.Control {...field} as="textarea" placeholder={q.placeholder} />}
           />
           {errors.details && errors.details[index]?.answer?.type === 'required' && <><Form.Text className="text-danger">An answer is required</Form.Text><br /></>}
+          {errors.details && errors.details[index]?.answer?.type === 'minWords' && <><Form.Text className="text-danger">Your answer must be at least {q.validations.minWords} words</Form.Text><br /></>}
+          {errors.details && errors.details[index]?.answer?.type === 'maxWords' && <><Form.Text className="text-danger">Your answer must be no more than {q.validations.maxWords} words</Form.Text><br /></>}
           {q.helperText !== '' && <Form.Text>{q.helperText}</Form.Text>}
         </Form.Group>
       </Fragment>))}
