@@ -35,8 +35,6 @@ const ToolbarSubmission = ({ program, submission, isPanel }) => {
     clearAlerts('submission');
     const errors = validateSubmission(program, submission);
 
-    console.log(errors);
-
     const errorKeys = Object.keys(errors);
     if (errorKeys.length) {
       handlErrors(errorKeys.map(key => errors[key]));
