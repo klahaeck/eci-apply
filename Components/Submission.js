@@ -40,7 +40,7 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
       <ToolbarSubmission program={program} submission={submission} isPanel={isPanel} />
       {(isJuror(user) || isAdmin(user)) && <JuryTools program={program} submission={submission} mutate={mutate} />}
 
-      <Alerts position="submission" dismissible={false} />
+      <Alerts position="submission" dismissible={true} />
 
       <Accordion defaultActiveKey={['0', '1', '6']} alwaysOpen>
         <Accordion.Item eventKey="0">
