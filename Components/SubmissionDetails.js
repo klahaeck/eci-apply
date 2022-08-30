@@ -11,13 +11,13 @@ const SubmissionDetails = ({ questions, submission, onSubmit }) => {
   return (
     <>
       <div className="mb-4">
-        {!submission.details.length && questions.map((q, index) => (
+        {!submission.details?.length && questions.map((q, index) => (
           <div key={index} className="mb-4">
             <p className="h5 border-bottom">{q.question}</p>
             <p style={{whiteSpace: 'pre-line'}}>Your answer here.</p>
           </div>
         ))}
-        {submission.details.length > 0 && submission.details.map((detail, index) => (
+        {submission.details?.length > 0 && submission.details.map((detail, index) => (
           <div key={index} className="mb-4">
             <p className="h5 border-bottom">{detail.question}</p>
             <p style={{whiteSpace: 'pre-line'}}>{detail.answer}</p>

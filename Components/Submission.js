@@ -3,7 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { Accordion } from 'react-bootstrap';
 import { isAdmin, isJuror } from '../lib/users';
 import JuryTools from './JuryTools';
-// import Alerts from './Alerts';
+import Alerts from './Alerts';
 import SubmissionContactInfo from './SubmissionContactInfo';
 import SubmissionSummary from './SubmissionSummary';
 import SubmissionDetails from './SubmissionDetails';
@@ -40,7 +40,7 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
       <ToolbarSubmission program={program} submission={submission} isPanel={isPanel} />
       {(isJuror(user) || isAdmin(user)) && <JuryTools program={program} submission={submission} mutate={mutate} />}
 
-      {/* <Alerts position="submission" dismissible={false} /> */}
+      <Alerts position="submission" dismissible={false} />
 
       <Accordion defaultActiveKey={['0', '1', '6']} alwaysOpen>
         <Accordion.Item eventKey="0">

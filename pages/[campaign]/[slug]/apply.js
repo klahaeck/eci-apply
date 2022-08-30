@@ -9,6 +9,7 @@ import Main from '../../../layouts/Main';
 // import ProgramToolbar from '../../../Components/ProgramToolbar';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Submission from '../../../components/Submission';
+import { useEffect } from 'react';
 // import { meta } from '../../../data';
 
 const ProgramApply = withPageAuthRequired(() => {
@@ -27,6 +28,7 @@ const ProgramApply = withPageAuthRequired(() => {
       <Container fluid>
         {(errorProgram || errorSubmission) && <div>Failed to load</div>}
         {!errorProgram && !errorSubmission && !program && !submission && <div>Loading...</div>}
+        {/* {JSON.stringify(submission)} */}
         {program && submission && <>
           {/* <ProgramToolbar program={program} /> */}
           <Submission program={program} submission={submission} mutate={mutate} />
