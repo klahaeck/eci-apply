@@ -61,11 +61,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
         {submissions && getSubmissions.map((submission, index) => (
           <tr key={index}>
             <td>{submission.contacts.map(contact => contact.name).join(', ')}</td>
-            <td>
-              <a href={`/${program.campaign}/${program.slug}/${isPanel ? 'panel' : 'submissions'}/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>
-                {submission.title}
-              </a>
-            </td>
+            <td>{submission.title}</td>
             <td>{submission.assetsCount}</td>
             {isJuror(user) && <td>{getMyRating(submission.ratings)}</td>}
             {isAdmin(user) && <td>{submission.avgRating}</td>}
@@ -73,7 +69,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
             {!isPanel && isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className="text-end">
-              {/* <Button variant="info" size="sm" href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>Show</Button> */}
+              <Button variant="info" size="sm" href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>View</Button>
               {isAdmin(user) && <Button variant={submission.finalist ? 'success' : 'light'} size="sm" className="ms-1" onClick={() => toggleFinalist(submission._id, !submission.finalist)}>Finalist</Button>}
 
               {isAdmin(user) && <Button variant="danger" size="sm" className="ms-1" onClick={() => removeSubmission(submission._id)}><i className="bi bi-trash-fill"></i></Button>}
