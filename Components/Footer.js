@@ -19,7 +19,7 @@ const Footer = () => {
                 <Link href="/vaf/2022"><a className="text-muted text-decoration-none">home</a></Link>
               </div>
               <div>
-                <Link href="https://www.midwayart.org/vaf/"><a className="text-muted text-decoration-none">about</a></Link>
+                <Link href="https://www.midwayart.org/vaf-info/"><a className="text-muted text-decoration-none">about</a></Link>
               </div>
               {/* <div>
                 <Link href="/contact"><a className="text-muted text-decoration-none">contact</a></Link>
