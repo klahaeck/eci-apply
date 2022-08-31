@@ -70,12 +70,13 @@ const FormBudget = ({ submission, onSubmit, hideModal }) => {
 
   const popoverIncome = (
     <Popover id="popover-basic">
-      <Popover.Header as="h3">Additional income may include:</Popover.Header>
+      <Popover.Header as="h3">Not required, but could include:</Popover.Header>
       <Popover.Body>
         <ul>
-          <li>personal income</li>
-          <li>other grant funding</li>
-          <li>other fundraising</li>
+          <li>Other grants</li>
+          <li>Crowd funding</li>
+          <li>Personal contributions</li>
+          <li>Other fundraising</li>
         </ul>
       </Popover.Body>
     </Popover>
@@ -102,13 +103,13 @@ const FormBudget = ({ submission, onSubmit, hideModal }) => {
 
       <p>The amount you have requested from the VAF will automatically display under the Income section. You are not expected to have additional income for the project outside of the Visual Arts Fund grant, but please indicate it if you do. Please check the box indicating whether the additional income listed is secured (that you have already confirmed or received the money); if it is not confirmed or needs to be sourced, leave the box unchecked. Your budget must show a zero balance between your Expenses and Income.</p>
 
-      <p>If you have questions regarding your project budget, please contact us via phone 612 605 4504 or email vaf@midwayart.org.</p>
+      <p>If you have questions regarding your project budget, please contact us via phone (612) 605-4504 or email vaf@midwayart.org.</p>
 
-      <ul>
+      {/* <ul>
         <li>Expenses (Lead Organizer stipends, artist stipends, materials, facility rental, equipment rental, production costs, marketing, reception costs, other)</li>
         <li>Income (other grants, crowd funding, personal contributions, etc. — not required)</li>
         <li>In-Kind donations (donated location, pro-bono design services, donated materials, etc.)</li>
-      </ul>
+      </ul> */}
     
       <Form onSubmit={handleSubmit(thisOnSubmit)} className="mt-3">
         <h4 className="mt-5">Expenses - <OverlayTrigger trigger="hover" placement="right" overlay={popoverExpenses}>

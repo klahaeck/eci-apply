@@ -16,7 +16,7 @@ const Footer = () => {
           <Col>
             <Stack direction="horizontal" gap={3}>
               <div>
-                <Link href="/"><a className="text-muted text-decoration-none">home</a></Link>
+                <Link href="/vaf/2022"><a className="text-muted text-decoration-none">home</a></Link>
               </div>
               <div>
                 <Link href="https://www.midwayart.org/vaf/"><a className="text-muted text-decoration-none">about</a></Link>

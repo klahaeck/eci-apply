@@ -16,10 +16,14 @@ const SubmissionAssets = ({ submission, mutate }) => {
   const [ assets, setAssets ] = useState(submission.assets);
   const assetsLoaded = useRef(null);
 
-  const onSubmitAssets = () => {
+  const onSubmitAssets = async () => {
     mutate();
     hideModal();
   };
+
+  useEffect(() => {
+    setAssets(submission.assets);
+  }, [submission.assets]);
 
   const editAsset = (asset) => {
     const FormComponent = asset.type === 'image' ? FormImage : asset.type === 'video' ? FormVideo : FormWebsite;
@@ -37,7 +41,7 @@ const SubmissionAssets = ({ submission, mutate }) => {
 
   const SortableItem = SortableElement(({value}) => <tr>
     {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <td width="20"><DragHandle /></td>}
-    <td>{getAssetLink(value)}</td>
+    <td style={{minWidth: '80px'}}>{getAssetLink(value)}</td>
     <td>{value.title}</td>
     <td>{value.artist}</td>
     <td>{value.year}</td>
@@ -96,7 +100,7 @@ const SubmissionAssets = ({ submission, mutate }) => {
         <thead>
           <tr>
             {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <th>Sort</th>}
-            <th></th>
+            <th style={{minWidth: '80px'}}></th>
             <th>Title</th>
             <th>Artist</th>
             <th>Year</th>

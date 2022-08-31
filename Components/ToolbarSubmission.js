@@ -11,10 +11,10 @@ import { validateSubmission } from '../lib/validate';
 import { isAdmin, isJuror } from '../lib/users';
 // import { Router } from 'next/router';
 
-const ToolbarSubmission = ({ program, submission, isPanel }) => {
+const ToolbarSubmission = ({ program, submission, mutate, isPanel }) => {
   // const router = useRouter();
   const { user } = useUser();
-  const { campaign, slug } = program;
+  const { campaign, slug, confirmationEmail } = program;
   const { queryParams } = useQueryParams();
   const { sortBy, sortOrder } = queryParams;
   const { addAlert, clearAlerts } = useRoot();
@@ -51,6 +51,14 @@ const ToolbarSubmission = ({ program, submission, isPanel }) => {
       const resJSON = await response.json();
       // console.log(resJSON);
       if (resJSON.errors) handlErrors(resJSON.errors);
+    } else {
+      mutate();
+      addAlert({
+        position: 'submission',
+        heading: 'You have successfully submitted your application!',
+        color: 'success',
+        msg: confirmationEmail
+      });
     }
   };
 

@@ -27,12 +27,12 @@ const SubmissionContactInfo = ({ submission, onSubmit }) => {
               <td>{formatPhoneNumber(contact.phone_number)}</td>
             </tr>
             <tr>
-              <td>Address 1:</td>
+              <td>Street Address:</td>
               <td>{contact.address0}</td>
             </tr>
             <tr>
-              <td>Address 2:</td>
-              <td>{contact.address1}</td>
+              <td>City:</td>
+              <td>{contact.city}</td>
             </tr>
             <tr>
               <td>County:</td>

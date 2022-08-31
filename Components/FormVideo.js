@@ -49,7 +49,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisVideoData.title}
           rules={{
-            required: true
+            required: false
             // pattern: /^[A-Za-z]+$/
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a title" disabled={isSubmitting} />}
@@ -64,7 +64,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisVideoData.artist}
           rules={{
-            required: true
+            required: false
             // pattern: /^[A-Za-z]+$/
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter an artist" disabled={isSubmitting} />}
@@ -79,7 +79,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisVideoData.year}
           rules={{
-            required: true,
+            required: false,
             pattern: /^(19|20)[\d]{2,2}$/
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a year" disabled={isSubmitting} />}
@@ -94,7 +94,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisVideoData.duration}
           rules={{
-            required: true,
+            required: false,
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter the duration" disabled={isSubmitting} />}
         />            
@@ -108,7 +108,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisVideoData.description}
           rules={{
-            required: true
+            required: false
             // pattern: /^[A-Za-z]+$/
           }}
           render={({ field }) => <Form.Control {...field} as="textarea" placeholder="image description..." disabled={isSubmitting} />}

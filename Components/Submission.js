@@ -37,7 +37,7 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
 
   return (
     <>
-      <ToolbarSubmission program={program} submission={submission} isPanel={isPanel} />
+      <ToolbarSubmission program={program} submission={submission} mutate={mutate} isPanel={isPanel} />
       {(isJuror(user) || isAdmin(user)) && <JuryTools program={program} submission={submission} mutate={mutate} />}
 
       <Alerts position="submission" dismissible={true} />

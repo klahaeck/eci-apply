@@ -64,7 +64,7 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Address 1</Form.Label>
+            <Form.Label>Street Address</Form.Label>
             <Controller
               name="contacts.0.address0"
               control={control}
@@ -77,16 +77,16 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Address 2</Form.Label>
+            <Form.Label>City</Form.Label>
             <Controller
-              name="contacts.0.address1"
+              name="contacts.0.city"
               control={control}
               rules={{
-                required: false
+                required: true
               }}
-              render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter an address" />}
+              render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a city" />}
             />            
-            {errors.contacts && errors.contacts[index]?.address1?.type === 'required' && <Form.Text className="text-danger">An address is required</Form.Text>}
+            {errors.contacts && errors.contacts[index]?.city?.type === 'required' && <Form.Text className="text-danger">A city is required</Form.Text>}
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -108,7 +108,7 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
               name="contacts.0.identifyAs"
               control={control}
               rules={{
-                required: true
+                required: false
               }}
               render={({ field }) => <Form.Control {...field} as="textarea" placeholder="I identify as..." />}
             />            

@@ -98,7 +98,7 @@ const FormImage = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisImageData.title}
           rules={{
-            required: true
+            required: false
             // pattern: /^[A-Za-z]+$/
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a title" disabled={isSubmitting} />}
@@ -113,7 +113,7 @@ const FormImage = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisImageData.artist}
           rules={{
-            required: true
+            required: false
             // pattern: /^[A-Za-z]+$/
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter an artist" disabled={isSubmitting} />}
@@ -128,7 +128,7 @@ const FormImage = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisImageData.year}
           rules={{
-            required: true,
+            required: false,
             pattern: /^(19|20)[\d]{2,2}$/
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a year" disabled={isSubmitting} />}
@@ -143,7 +143,7 @@ const FormImage = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisImageData.dimensions}
           rules={{
-            required: true,
+            required: false,
           }}
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter the dimensions" disabled={isSubmitting} />}
         />            
@@ -157,7 +157,7 @@ const FormImage = ({ submission, assetData, onSubmit, hideModal }) => {
           control={control}
           defaultValue={thisImageData.description}
           rules={{
-            required: true
+            required: false
             // pattern: /^[A-Za-z]+$/
           }}
           render={({ field }) => <Form.Control {...field} as="textarea" placeholder="image description..." disabled={isSubmitting} />}
