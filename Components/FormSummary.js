@@ -121,7 +121,7 @@ const FormSummary = ({ submission, onSubmit, hideModal }) => {
           render={({ field }) => <Form.Control {...field} as="textarea" placeholder="project summary..." />}
         />
         {errors.summary?.type === 'required' && <><Form.Text className="text-danger">A summary is required</Form.Text><br/></>}
-        <Form.Text>(50 words max.)</Form.Text>
+        <Form.Text>(100 words max.)</Form.Text>
       </Form.Group>
       
       <Stack direction="horizontal" gap={2} className="justify-content-end">
