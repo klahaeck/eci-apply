@@ -54,7 +54,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
           {!isPanel && isAdmin(user) && <th>Eligible</th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('submitted'); }}>Submitted {sortBy === 'submitted' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
-          {!isPanel && isAdmin(user) && <th className="text-end">Tools</th>}
+          {!isPanel && (isAdmin(user) || isJuror(user)) && <th className="text-end">Tools</th>}
         </tr>
       </thead>
       <tbody>
@@ -68,7 +68,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
             {!isPanel && isAdmin(user) && <td className={submission.eligible ? 'text-success' : 'text-danger'}>{submission.eligible.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}
-            {!isPanel && isAdmin(user) && <td className="text-end">
+            {!isPanel && (isAdmin(user) || isJuror(user)) && <td className="text-end">
               <Button variant="info" size="sm" href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>View</Button>
               {isAdmin(user) && <Button variant={submission.finalist ? 'success' : 'light'} size="sm" className="ms-1" onClick={() => toggleFinalist(submission._id, !submission.finalist)}>Finalist</Button>}
 
