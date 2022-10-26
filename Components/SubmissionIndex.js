@@ -51,7 +51,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
           <th>Work Samples</th>
           {isJuror(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('myRating'); }}>My Rating {sortBy === 'myRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('avgRating'); }}>Avg. Rating {sortBy === 'avgRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
-          {!isPanel && isAdmin(user) && <th>Eligible</th>}
+          {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('eligible'); }}>Eligible {sortBy === 'eligible' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('submitted'); }}>Submitted {sortBy === 'submitted' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && (isAdmin(user) || isJuror(user)) && <th className="text-end">Tools</th>}
