@@ -47,38 +47,3 @@
 .react-datetime-picker__wrapper {
   border: none;
 }
-
-.slick-prev,
-.slick-next {
-  top: 0px;
-  width: 24px;
-  height: 24px;
-
-  ::before {
-    font-size: 24px;
-  }
-}
-.slick-prev {
-  left: -44px;
-}
-.slick-next {
-  right: -44px;
-}
-.slick-dots {
-  bottom: -40px;
-
-  li {
-    button::before {
-      font-size: 10px;
-      color: black;
-      opacity: 1;
-    }
-
-    &.slick-active {
-      button::before {
-        opacity: 1;
-        color: white;
-      }
-    }
-  }
-}
