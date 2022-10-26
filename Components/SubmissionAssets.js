@@ -9,6 +9,8 @@ import FormVideo from './FormVideo';
 import FormWebsite from './FormWebsite';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
+import Slider from 'react-slick';
+import findIndex from 'lodash/findIndex';
 
 const SubmissionAssets = ({ submission, mutate }) => {
   const { user } = useUser();
@@ -69,7 +71,6 @@ const SubmissionAssets = ({ submission, mutate }) => {
   };
 
   useEffect(() => {
-
     if (assetsLoaded.current) {
       const sortedAssets = assets.map((asset, index) => {
         return {
@@ -88,10 +89,39 @@ const SubmissionAssets = ({ submission, mutate }) => {
   }, [assets]);
 
   const getAssetLink = (asset) => {
-    return asset.type === 'image' ? <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} role="button" onClick={() => showModal({size: 'lg', body: <img src={asset.imageURL} alt={asset.title} className="img-fluid" />})} />
+    return asset.type === 'image' ? <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} role="button" onClick={() => showModal({size: 'lg', body: getAssetCarousel(asset._id)})} />
     : asset.type === 'video' ? <a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-film fs-3"></i></a>
     : asset.type === 'website' ? <a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-globe2 fs-3"></i></a>
     : <i className="bi bi-question-circle"></i>
+  };
+
+  const getAssetCarousel = (assetId) => {
+    const initialSlide = findIndex(assets, { _id: assetId });
+
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      adaptiveHeight: true,
+      initialSlide
+    };
+    return (
+      <div>
+        <Slider {...settings}>
+          {assets.map((asset, index) => {
+            return (
+              <div key={index} >
+                {asset.type === 'image' && <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} />}
+                {asset.type === 'video' && <div className="p-5 text-center"><a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-film fs-3"></i></a></div>}
+                {asset.type === 'website' && <div className="p-5 text-center"><a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-globe2 fs-3"></i></a></div>}
+              </div>
+            );
+          })}
+        </Slider>
+      </div>
+    );
   };
 
   return (
