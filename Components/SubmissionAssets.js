@@ -9,12 +9,11 @@ import FormVideo from './FormVideo';
 import FormWebsite from './FormWebsite';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
-import Slider from 'react-slick';
-import findIndex from 'lodash/findIndex';
+import Fancybox from './Fancybox';
 
 const SubmissionAssets = ({ submission, mutate }) => {
   const { user } = useUser();
-  const { showModal, hideModal, openForm } = useRoot();
+  const { hideModal, openForm } = useRoot();
   const [ assets, setAssets ] = useState(submission.assets);
   const assetsLoaded = useRef(null);
 
@@ -89,39 +88,10 @@ const SubmissionAssets = ({ submission, mutate }) => {
   }, [assets]);
 
   const getAssetLink = (asset) => {
-    return asset.type === 'image' ? <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} role="button" onClick={() => showModal({size: 'lg', body: getAssetCarousel(asset._id)})} />
-    : asset.type === 'video' ? <a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-film fs-3"></i></a>
+    return asset.type === 'image' ? <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} data-fancybox="gallery" data-src={asset.imageURL} />
+    : asset.type === 'video' ? <a href={asset.url} target="_blank" rel="noreferrer" data-fancybox="gallery" data-src={asset.url}><i className="bi bi-film fs-3"></i></a>
     : asset.type === 'website' ? <a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-globe2 fs-3"></i></a>
     : <i className="bi bi-question-circle"></i>
-  };
-
-  const getAssetCarousel = (assetId) => {
-    const initialSlide = findIndex(assets, { _id: assetId });
-
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      adaptiveHeight: true,
-      initialSlide
-    };
-    return (
-      <div>
-        <Slider {...settings}>
-          {assets.map((asset, index) => {
-            return (
-              <div key={index} >
-                {asset.type === 'image' && <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} />}
-                {asset.type === 'video' && <div className="p-5 text-center"><a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-film fs-3"></i></a></div>}
-                {asset.type === 'website' && <div className="p-5 text-center"><a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-globe2 fs-3"></i></a></div>}
-              </div>
-            );
-          })}
-        </Slider>
-      </div>
-    );
   };
 
   return (
@@ -139,7 +109,9 @@ const SubmissionAssets = ({ submission, mutate }) => {
             {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <th className="text-end">Tools</th>}
           </tr>
         </thead>
-        <SortableList items={assets} onSortEnd={onSortEnd} useDragHandle={true} />
+        <Fancybox options={{ infinite: false }}>
+          <SortableList items={assets} onSortEnd={onSortEnd} useDragHandle={true} />
+        </Fancybox>
       </Table>}
       {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Stack direction="horizontal" gap={1}>
         <Button variant="primary" onClick={() => openForm('Add Image', <FormImage submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Image</Button>
