@@ -64,7 +64,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
             <td><a href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>{submission.title}</a></td>
             <td>{submission.assetsCount}</td>
             {isJuror(user) && <td>{getMyRating(submission.ratings)}</td>}
-            {((isPanel && program.showPanelRatings) || !isPanel) && isAdmin(user) && <td>{submission.avgRating}</td>}
+            {((isPanel && program.showPanelRatings) || !isPanel) && isAdmin(user) && <td>{submission.avgRating ? submission.avgRating.toFixed(2) : ''}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.eligible ? 'text-success' : 'text-danger'}>{submission.eligible.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}
