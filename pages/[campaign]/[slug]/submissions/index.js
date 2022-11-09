@@ -20,7 +20,7 @@ const ProgramSubmissions = ({ user }) => {
   const { sortBy, sortOrder, s: searchQuery, perPage, pageNumber } = queryParams;
 
   const { data: program, error: errorProgram } = useSWR(`/api/programs/${campaign}/${slug}`, fetcher);
-  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber }] : null, fetcher);
+  const { data: submissions, error: errorSubmissions, mutate } = useSWR(program ? ['/api/submissions', { programId: program._id, s: searchQuery, sortBy, sortOrder, perPage, pageNumber, filterFinalists: program.filterFinalists }] : null, fetcher);
 
   return (
     <Main>
@@ -34,7 +34,7 @@ const ProgramSubmissions = ({ user }) => {
         {(!program || !submissions) && <div>Loading...</div>}
         {program && submissions && <>
           <ToolbarProgram program={program} showSearch={true} />
-          <SubmissionIndex user={user} program={program} submissions={submissions} mutate={mutate} />
+          <SubmissionIndex user={user} program={program} submissions={submissions} mutate={mutate} filterFinalists={program.filterFinalists} />
 
           {submissions.totalPages > 1 && <PaginationSubmissions totalPages={submissions.totalPages} />}
         </>}

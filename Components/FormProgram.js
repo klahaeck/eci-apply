@@ -384,6 +384,24 @@ const FormProgram = ({ program }) => {
               render={({ field }) => <Form.Check {...field} type="switch" label="Panel Active" defaultChecked={formData.panelActive} />}
             />
           </Form.Group>
+
+          <Form.Group className="my-3">
+            <Controller
+              control={control}
+              name="showPanelRatings"
+              defaultValue={formData.showPanelRatings}
+              render={({ field }) => <Form.Check {...field} type="switch" label="Show Panel Ratings" defaultChecked={formData.showPanelRatings} />}
+            />
+          </Form.Group>
+          
+          <Form.Group className="my-3">
+            <Controller
+              control={control}
+              name="filterFinalists"
+              defaultValue={formData.filterFinalists}
+              render={({ field }) => <Form.Check {...field} type="switch" label="Filter Finalists" defaultChecked={formData.filterFinalists} />}
+            />
+          </Form.Group>
           
           <Form.Group className="mb-3">
             <Form.Label>Current Rating Round</Form.Label>

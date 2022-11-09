@@ -50,7 +50,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
           <th>Title</th>
           <th>Work Samples</th>
           {isJuror(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('myRating'); }}>My Rating {sortBy === 'myRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
-          {isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('avgRating'); }}>Avg. Rating {sortBy === 'avgRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
+          {((isPanel && program.showPanelRatings) || !isPanel) && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('avgRating'); }}>Avg. Rating {sortBy === 'avgRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('eligible'); }}>Eligible {sortBy === 'eligible' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('submitted'); }}>Submitted {sortBy === 'submitted' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {!isPanel && isAdmin(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('finalist'); }}>Finalist {sortBy === 'finalist' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
@@ -61,10 +61,10 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
         {submissions && getSubmissions.map((submission, index) => (
           <tr key={index}>
             <td>{submission.contacts.map(contact => contact.name).join(', ')}</td>
-            <td>{submission.title}</td>
+            <td><a href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>{submission.title}</a></td>
             <td>{submission.assetsCount}</td>
             {isJuror(user) && <td>{getMyRating(submission.ratings)}</td>}
-            {isAdmin(user) && <td>{submission.avgRating}</td>}
+            {((isPanel && program.showPanelRatings) || !isPanel) && isAdmin(user) && <td>{submission.avgRating}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.eligible ? 'text-success' : 'text-danger'}>{submission.eligible.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.submitted ? 'text-success' : 'text-danger'}>{submission.submitted.toString()}</td>}
             {!isPanel && isAdmin(user) && <td className={submission.finalist ? 'text-success' : 'text-danger'}>{submission.finalist.toString()}</td>}

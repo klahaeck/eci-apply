@@ -73,7 +73,7 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
           </div>
         ))}
       </>}
-      {submission['avgRating'] !== undefined && <p className="h4">Avg Rating: <b>{submission.avgRating}</b></p>}
+      {program.showPanelRatings && submission['avgRating'] !== undefined && <p className="h4">Avg Rating: <b>{submission.avgRating}</b></p>}
     </Form>
   );
 };

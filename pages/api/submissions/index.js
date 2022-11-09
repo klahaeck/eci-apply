@@ -15,11 +15,11 @@ handler.get(withApiAuthRequired(async (req, res) => {
     return res.status(403).send('You do not have permission');
   }
   
-  const { query: { programId, s: searchQuery, perPage, pageNumber, sortBy, sortOrder, isPanel } } = req;
+  const { query: { programId, s: searchQuery, perPage, pageNumber, sortBy, sortOrder, isPanel, filterFinalists } } = req;
   const userId = user.sub;
 
   try {
-    const submissions = await getSubmissions({ programId, userId, role, searchQuery, sortBy, sortOrder, perPage, pageNumber, isPanel });
+    const submissions = await getSubmissions({ programId, userId, role, searchQuery, sortBy, sortOrder, perPage, pageNumber, isPanel, filterFinalists });
     return res.json(submissions);
   } catch(error) {
     console.error(error);
