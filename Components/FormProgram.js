@@ -399,7 +399,7 @@ const FormProgram = ({ program }) => {
               control={control}
               name="filterFinalists"
               defaultValue={formData.filterFinalists}
-              render={({ field }) => <Form.Check {...field} type="switch" label="Filter Finalists" defaultChecked={formData.filterFinalists} />}
+              render={({ field }) => <Form.Check {...field} type="switch" label="Filter Finalists in Submissions View" defaultChecked={formData.filterFinalists} />}
             />
           </Form.Group>
           
