@@ -20,5 +20,4 @@ function Fancybox(props) {
   return <>{props.children}</>;
 }
 
-
 export default Fancybox;
