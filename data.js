@@ -1,7 +1,7 @@
 export const meta = {
   copyright: 'Emerging Curators Institute',
   title: 'Emerging Curators Institute',
-  socialTitle: 'Emerging Curators Institute',
+  socialTitle: 'Emerging Curators Institute - Fellowship',
   keywords: 'emerging, curators, institute, fellowship',
   description: 'Emerging Curators Institute Fellowship',
   imageUrl: 'https://cryptowords.s3.amazonaws.com/production/social-share.png',
