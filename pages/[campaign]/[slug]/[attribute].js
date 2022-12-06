@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import Head from 'next/head';
 import useProgram from '../../../hooks/useProgram';
-import { useRoot } from '../../../contexts/RootContext';
+// import { useRoot } from '../../../contexts/RootContext';
 import { useRouter } from 'next/router';
 import {
   Container,
@@ -16,19 +16,19 @@ const Attributes = () => {
   const router = useRouter()
   const { campaign, slug, attribute } = router.query;
 
-  const { addAlert, clearAlerts } = useRoot();
+  // const { addAlert, clearAlerts } = useRoot();
 
   const { program, error } = useProgram({ campaign, slug });
 
-  useEffect(() => {
-    clearAlerts('notify');
-    addAlert({
-      position: 'notify',
-      heading: '',
-      color: 'info',
-      msg: 'Please create an account using the \‘Signup\' button located at the top right corner of this page. If you have applied to the VAF in the past, you will still need to create a new account this year as we have updated our application portal. Thank you for your understanding!'
-    });
-  }, []);
+  // useEffect(() => {
+  //   clearAlerts('notify');
+  //   addAlert({
+  //     position: 'notify',
+  //     heading: '',
+  //     color: 'info',
+  //     msg: 'Please create an account using the \‘Signup\' button located at the top right corner of this page. If you have applied to the VAF in the past, you will still need to create a new account this year as we have updated our application portal. Thank you for your understanding!'
+  //   });
+  // }, []);
 
   const getContent = () => {
     if (attribute === 'description') {

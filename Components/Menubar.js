@@ -31,7 +31,7 @@ const Menubar = () => {
         <Navbar.Collapse id="navbarScroll">
           {campaign && slug && <Nav className="ms-1 me-auto">
             <Link href={`/${campaign}/${slug}`} passHref>
-              <Nav.Link>Description</Nav.Link>
+              <Nav.Link>About</Nav.Link>
             </Link>
             <Link href={`/${campaign}/${slug}/guidelines`} passHref>
               <Nav.Link>Guidelines</Nav.Link>

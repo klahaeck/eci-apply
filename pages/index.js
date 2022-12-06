@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import Main from '../layouts/Main';
 
-const Home = (props) => {
+const Home = () => {
   return (
     <Main>
       <Head>

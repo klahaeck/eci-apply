@@ -7,8 +7,8 @@ import Alerts from './Alerts';
 import SubmissionContactInfo from './SubmissionContactInfo';
 import SubmissionSummary from './SubmissionSummary';
 import SubmissionDetails from './SubmissionDetails';
-import SubmissionBios from './SubmissionBios';
-import SubmissionBudget from './SubmissionBudget';
+// import SubmissionBios from './SubmissionBios';
+// import SubmissionBudget from './SubmissionBudget';
 import SubmissionAssets from './SubmissionAssets';
 import FormAdmin from './FormAdmin';
 import ToolbarSubmission from './ToolbarSubmission';
@@ -64,19 +64,19 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
           </Accordion.Body>
         </Accordion.Item>
 
-        <Accordion.Item eventKey="3">
+        {/* <Accordion.Item eventKey="3">
           <Accordion.Header><b>Bios (Limit 5)</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionBios submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
 
-        <Accordion.Item eventKey="4">
+        {/* <Accordion.Item eventKey="4">
           <Accordion.Header><b>Budget</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionBudget submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
 
         <Accordion.Item eventKey="5">
           <Accordion.Header><b>Visual Support Materials (10 Required)</b></Accordion.Header>
