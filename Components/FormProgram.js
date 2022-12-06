@@ -455,7 +455,7 @@ const FormProgram = ({ program }) => {
                       required: true,
                       validate: {
                         positive: v => parseInt(v) >= 0,
-                        lessThanHundred: v => parseInt(v) < 100,
+                        lessThanHundred: v => parseInt(v) <= 100,
                       }
                     }}
                     render={({ field }) => <Form.Control {...field} type="number" placeholder="Enter the weight" />}

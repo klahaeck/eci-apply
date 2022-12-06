@@ -16,7 +16,7 @@ const Programs = () => {
   return (
     <Main>
       <Head>
-        <title>VAF - Programs</title>
+        <title>ECI Apply - Programs</title>
       </Head>
 
       <Container fluid>

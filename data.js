@@ -1,15 +1,15 @@
 export const meta = {
-  copyright: 'Midway Contemporary Art',
-  title: 'Visual Arts Fund',
-  socialTitle: 'Visual Arts Fund',
-  keywords: 'visual, arts, fund',
-  description: 'Visual Arts Fund',
+  copyright: 'Emerging Curators Institute',
+  title: 'Emerging Curators Institute',
+  socialTitle: 'Emerging Curators Institute',
+  keywords: 'Emerging Curators Institute',
+  description: 'Emerging Curators Institute',
   imageUrl: 'https://cryptowords.s3.amazonaws.com/production/social-share.png',
   path: '/',
-  url: 'https://vaf.midwayart.org'
+  url: 'https://apply.emergingcurators.org'
 };
 
-export const campaigns = [ 'VAF', 'Relief' ];
+export const campaigns = [ 'Fellowship' ];
 
 export const defaultQuestion = {
   question: '',
@@ -24,9 +24,9 @@ export const defaultQuestion = {
 
 export const defaultProgram = {
   title: '',
-  startDate: '',
-  endDate: '',
-  campaign: 'vaf',
+  startDate: new Date('2023-01-01T00:00:00.000-08:00'),
+  endDate: new Date('2023-01-01T00:00:00.000-08:00'),
+  campaign: 'fellowship',
   published: false,
   jurors: [],
   description: '',
@@ -93,7 +93,6 @@ export const defaultSubmission = {
 
 export const grantAmounts = [
   { label: '$5,000', value: 5000 },
-  { label: '$10,000', value: 10000 }
 ];
 
 export const defaultBio = {

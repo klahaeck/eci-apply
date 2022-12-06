@@ -14,7 +14,7 @@ const PageProfile = withPageAuthRequired(({ user }) => {
   return (
     <Main>
       <Head>
-        <title>VAF - Profile</title>
+        <title>ECI Apply - Profile</title>
       </Head>
 
       <Container fluid>

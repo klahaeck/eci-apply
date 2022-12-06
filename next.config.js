@@ -1,13 +1,13 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['vaf.s3.amazonaws.com'],
+    domains: ['eciapply.s3.amazonaws.com'],
   },
   async redirects() {
     return [
       {
         source: '/',
-        destination: '/vaf/2022',
+        destination: '/fellowship/2023',
         permanent: false,
       },
     ]

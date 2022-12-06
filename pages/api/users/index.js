@@ -33,6 +33,7 @@ handler.get(withApiAuthRequired(async (req, res) => {
       url.searchParams.append(p, params[p]);
     }
   }
+  console.log(url);
 
   const reqUsers = await fetch(url, {
     method: 'GET',

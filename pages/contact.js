@@ -8,7 +8,7 @@ const PageContact = () => {
   return (
     <Main>
       <Head>
-        <title>VAF - Contact</title>
+        <title>ECI Apply - Contact</title>
       </Head>
 
       <Container fluid>

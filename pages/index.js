@@ -8,7 +8,7 @@ const Home = (props) => {
   return (
     <Main>
       <Head>
-        <title>VAF</title>
+        <title>ECI Apply</title>
       </Head>
 
       <Container fluid></Container>

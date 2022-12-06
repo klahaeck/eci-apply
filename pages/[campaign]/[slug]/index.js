@@ -32,7 +32,7 @@ const Slug = () => {
   return (
     <Main>
       <Head>
-        <title>VAF - {campaign?.toLowerCase() === 'vaf' ? slug : `${campaign} ${slug}`}</title>
+        <title>ECI Apply - {campaign?.toLowerCase() === 'fellowship' ? slug : `${campaign} ${slug}`}</title>
       </Head>
 
       <Container fluid>

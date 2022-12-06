@@ -12,7 +12,7 @@ const ProgramNew = () => {
   return (
     <Main>
       <Head>
-        <title>VAF - New Program</title>
+        <title>ECI Apply - New Program</title>
         {/* <meta property="og:url"             content={`${meta.url}/word/${word.slug}`} key="og:url" />
         <meta property="og:title"           content={`CryptoWords - ${startCase(word.name)}`} key="title" />
         <meta property="og:image"           content={word.imageShare} key="og:image" />
