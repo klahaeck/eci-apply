@@ -47,7 +47,6 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
       <thead>
         <tr>
           <th>User</th>
-          <th>Title</th>
           <th>Work Samples</th>
           {!isPanel && isJuror(user) && <th><a href="#" onClick={(event) => { event.preventDefault(); setSort('myRating'); }}>My Rating {sortBy === 'myRating' && <i className={`bi bi-caret-${sortOrder === 'asc' ? 'up' : 'down'}-fill`}></i>}</a></th>}
           {isPanel && isJuror(user) && <th>My Rating</th>}
@@ -61,8 +60,7 @@ const SubmissionIndex = ({ user, program, submissions, mutate, isPanel = false }
       <tbody>
         {submissions && getSubmissions.map((submission, index) => (
           <tr key={index}>
-            <td>{submission.contacts.map(contact => contact.name).join(', ')}</td>
-            <td><a href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>{submission.title}</a></td>
+            <td><a href={`/${program.campaign}/${program.slug}/submissions/${submission._id}?${stringify(encodeQueryParams(structure, {sortBy, sortOrder }))}`}>{submission.contacts.map(contact => contact.name).join(', ')}</a></td>
             <td>{submission.assetsCount}</td>
             {isJuror(user) && <td>{getMyRating(submission.ratings)}</td>}
             {((isPanel && program.showPanelRatings) || !isPanel) && isAdmin(user) && <td>{submission.avgRating ? submission.avgRating.toFixed(2) : ''}</td>}

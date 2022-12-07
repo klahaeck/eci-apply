@@ -59,7 +59,7 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="mt-3">
-      {submission['avgRating'] === undefined && <>
+      {!submission.avgRating && <>
         <p className="h4">Your Rating: <b>{myRating ? `${myRating}` : 'Not yet rated'}</b></p>
         {scopes.sort(sortScopes).map((scope, index) => (
           <div key={scope.id}>
@@ -73,7 +73,7 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
           </div>
         ))}
       </>}
-      {((program.panelActive && program.showPanelRatings) || !program.panelActive) && submission['avgRating'] !== undefined && <p className="h4">Avg Rating: <b>{submission.avgRating.toFixed(2)}</b></p>}
+      {((program.panelActive && program.showPanelRatings) || !program.panelActive) && submission.avgRating && <p className="h4">Avg Rating: <b>{submission.avgRating.toFixed(2)}</b></p>}
     </Form>
   );
 };

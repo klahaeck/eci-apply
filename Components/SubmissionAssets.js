@@ -6,7 +6,8 @@ import { useRoot } from '../contexts/RootContext';
 import { isAdmin } from '../lib/users';
 import FormImage from './FormImage';
 import FormVideo from './FormVideo';
-import FormWebsite from './FormWebsite';
+// import FormWebsite from './FormWebsite';
+import FormPdf from './FormPdf';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import Fancybox from './Fancybox';
@@ -27,7 +28,7 @@ const SubmissionAssets = ({ submission, mutate }) => {
   }, [submission.assets]);
 
   const editAsset = (asset) => {
-    const FormComponent = asset.type === 'image' ? FormImage : asset.type === 'video' ? FormVideo : FormWebsite;
+    const FormComponent = asset.type === 'image' ? FormImage : asset.type === 'video' ? FormVideo : asset.type === 'pdf' ? FormPdf : FormWebsite;
     openForm(`Edit ${asset.type}`, <FormComponent submission={submission} assetData={asset} onSubmit={onSubmitAssets} hideModal={hideModal} />);
   };
 
@@ -88,9 +89,10 @@ const SubmissionAssets = ({ submission, mutate }) => {
   }, [assets]);
 
   const getAssetLink = (asset) => {
-    return asset.type === 'image' ? <Image layout="responsive" width={asset.imageWidth} height={asset.imageHeight} src={asset.imageURL} alt={asset.title} data-fancybox="gallery" data-src={asset.imageURL} />
+    return asset.type === 'image' ? <Image layout="responsive" width={asset.assetWidth} height={asset.assetHeight} src={asset.assetURL} alt={asset.title} data-fancybox="gallery" data-src={asset.assetURL} />
     : asset.type === 'video' ? <a href={asset.url} target="_blank" rel="noreferrer" data-fancybox="gallery" data-src={asset.url}><i className="bi bi-film fs-3"></i></a>
     : asset.type === 'website' ? <a href={asset.url} target="_blank" rel="noreferrer"><i className="bi bi-globe2 fs-3"></i></a>
+    : asset.type === 'pdf' ? <a href={asset.assetURL} target="_blank" rel="noreferrer"><i className="bi bi-filetype-pdf fs-3"></i></a>
     : <i className="bi bi-question-circle"></i>
   };
 
@@ -116,7 +118,8 @@ const SubmissionAssets = ({ submission, mutate }) => {
       {(isAdmin(user) || (submission.userId === user.sub && !submission.submitted)) && <Stack direction="horizontal" gap={1}>
         <Button variant="primary" onClick={() => openForm('Add Image', <FormImage submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Image</Button>
         <Button variant="primary" onClick={() => openForm('Add Video', <FormVideo submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Video</Button>
-        <Button variant="primary" onClick={() => openForm('Add Website', <FormWebsite submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Website</Button>
+        {/* <Button variant="primary" onClick={() => openForm('Add Website', <FormWebsite submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add Website</Button> */}
+        <Button variant="primary" onClick={() => openForm('Add PDF', <FormPdf submission={submission} onSubmit={onSubmitAssets} hideModal={hideModal} />)}>Add PDF</Button>
       </Stack>}
     </>
   );

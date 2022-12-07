@@ -11,7 +11,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
 
   const thisVideoData = {
     ...defaultAsset,
-    duration: '',
+    // duration: '',
     url: '',
     ...assetData,
     submissionId,
@@ -87,7 +87,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
         {errors.year && <Form.Text className="text-danger">A valid year is required</Form.Text>}
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      {/* <Form.Group className="mb-3">
         <Form.Label>Duration</Form.Label>
         <Controller
           name="duration"
@@ -99,7 +99,7 @@ const FormVideo = ({ submission, assetData, onSubmit, hideModal }) => {
           render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter the duration" disabled={isSubmitting} />}
         />            
         {errors.duration && <Form.Text className="text-danger">A duration is required</Form.Text>}
-      </Form.Group>
+      </Form.Group> */}
 
       <Form.Group className="mb-3">
         <Form.Label>Description</Form.Label>

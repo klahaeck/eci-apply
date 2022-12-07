@@ -11,16 +11,16 @@ export const meta = {
 
 export const campaigns = [ 'Fellowship' ];
 
-export const defaultQuestion = {
-  question: '',
-  placeholder: '',
-  helperText: '',
-  validations: {
-    required: true,
-    minWords: 100,
-    maxWords: 500
-  }
-};
+// export const defaultQuestion = {
+//   question: '',
+//   placeholder: '',
+//   helperText: '',
+//   validations: {
+//     required: true,
+//     minWords: 100,
+//     maxWords: 500
+//   }
+// };
 
 export const defaultProgram = {
   title: '',
@@ -54,7 +54,7 @@ export const defaultProfile = {
     city: '',
     state: '',
     zip: '',
-    county: '',
+    // county: '',
   }
 };
 
@@ -73,27 +73,29 @@ export const defaultSubmission = {
     email: ''
   },
   contacts: [],
-  title: '',
-  startDate: new Date('2023-01-01T00:00:00.000-08:00'),
-  completionDate: new Date('2023-02-01T00:00:00.000-08:00'),
-  budgetTotal: 0,
-  budgetRequested: 5000,
-  summary: '',
-  details: [],
-  bios: [],
-  budget: {
-    expenses: [],
-    income: [],
-    notes: ''
-  },
+  // title: '',
+  // startDate: new Date('2023-01-01T00:00:00.000-08:00'),
+  // completionDate: new Date('2023-02-01T00:00:00.000-08:00'),
+  // budgetTotal: 0,
+  // budgetRequested: 5000,
+  resume: '',
+  statement: '',
+  proposal: '',
+  // details: [],
+  // bios: [],
+  // budget: {
+  //   expenses: [],
+  //   income: [],
+  //   notes: ''
+  // },
   eligible: true,
   submitted: false,
   finalist: false,
 };
 
-export const grantAmounts = [
-  { label: '$5,000', value: 5000 },
-];
+// export const grantAmounts = [
+//   { label: '$5,000', value: 5000 },
+// ];
 
 export const defaultBio = {
   name: '',

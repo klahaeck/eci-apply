@@ -35,12 +35,12 @@ const SubmissionContactInfo = ({ submission, onSubmit }) => {
               <td>{contact.city}</td>
             </tr>
             <tr>
-              <td>County:</td>
-              <td>{contact.county}</td>
+              <td>State:</td>
+              <td>{contact.state.label}</td>
             </tr>
             <tr>
-              <td>Identifies As:</td>
-              <td style={{whiteSpace: 'pre-line'}}>{contact.identifyAs}</td>
+              <td>Zip:</td>
+              <td>{contact.zip}</td>
             </tr>
           </tbody>
         </Table>

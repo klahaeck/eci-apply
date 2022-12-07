@@ -31,11 +31,12 @@ const RichEditor = ({ onChange, value }) => {
 
   return (
     <Fragment>
-      <div className="border border-1 border-dark editor">
+      <div className="border border-1 border-gray rounded editor">
         <Editor
           spellCheck
           editorState={editorState}
           onEditorStateChange={onEditorStateChange}
+          toolbar={{options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'emoji', 'remove', 'history']}}
         />
       </div>
     </Fragment>

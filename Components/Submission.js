@@ -5,10 +5,9 @@ import { isAdmin, isJuror } from '../lib/users';
 import JuryTools from './JuryTools';
 import Alerts from './Alerts';
 import SubmissionContactInfo from './SubmissionContactInfo';
-import SubmissionSummary from './SubmissionSummary';
-import SubmissionDetails from './SubmissionDetails';
-// import SubmissionBios from './SubmissionBios';
-// import SubmissionBudget from './SubmissionBudget';
+import SubmissionResume from './SubmissionResume';
+import SubmissionStatement from './SubmissionStatement';
+import SubmissionProposal from './SubmissionProposal';
 import SubmissionAssets from './SubmissionAssets';
 import FormAdmin from './FormAdmin';
 import ToolbarSubmission from './ToolbarSubmission';
@@ -51,34 +50,27 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
         </Accordion.Item>
 
         <Accordion.Item eventKey="1">
-          <Accordion.Header><b>Project Summary</b></Accordion.Header>
+          <Accordion.Header><b>Resume</b></Accordion.Header>
           <Accordion.Body>
-            <SubmissionSummary submission={submission} onSubmit={onSubmit} />
+            <SubmissionResume submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
         <Accordion.Item eventKey="2">
-          <Accordion.Header><b>Project Description</b></Accordion.Header>
+          <Accordion.Header><b>Statement of Interest</b></Accordion.Header>
           <Accordion.Body>
-            <SubmissionDetails submission={submission} questions={program.questions} onSubmit={onSubmit} />
+            <SubmissionStatement submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
         </Accordion.Item>
 
-        {/* <Accordion.Item eventKey="3">
-          <Accordion.Header><b>Bios (Limit 5)</b></Accordion.Header>
+        <Accordion.Item eventKey="3">
+          <Accordion.Header><b>Project Proposal</b></Accordion.Header>
           <Accordion.Body>
-            <SubmissionBios submission={submission} onSubmit={onSubmit} />
+            <SubmissionProposal submission={submission} onSubmit={onSubmit} />
           </Accordion.Body>
-        </Accordion.Item> */}
+        </Accordion.Item>
 
-        {/* <Accordion.Item eventKey="4">
-          <Accordion.Header><b>Budget</b></Accordion.Header>
-          <Accordion.Body>
-            <SubmissionBudget submission={submission} onSubmit={onSubmit} />
-          </Accordion.Body>
-        </Accordion.Item> */}
-
-        <Accordion.Item eventKey="5">
+        <Accordion.Item eventKey="4">
           <Accordion.Header><b>Visual Support Materials (10 Required)</b></Accordion.Header>
           <Accordion.Body>
             <SubmissionAssets submission={submission} onSubmit={onSubmit} mutate={mutate} />

@@ -6,6 +6,8 @@ import {
   Stack,
   Button,
 } from 'react-bootstrap';
+import Select from 'react-select';
+import { states } from '../data';
 
 const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
   const { contacts } = submission;
@@ -90,30 +92,29 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>County</Form.Label>
+            <Form.Label>State</Form.Label>
             <Controller
-              name="contacts.0.county"
+              control={control}
+              name="contacts.0.state"
+              rules={{
+                required: true
+              }}
+              render={({ field }) => <Select {...field} options={states} placeholder="Select state" className="select-custom" />}
+            />
+            {errors.contacts && errors.contacts[index]?.state?.type === 'required' && <Form.Text className="text-danger">A state is required</Form.Text>}
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Zip</Form.Label>
+            <Controller
+              name="contacts.0.zip"
               control={control}
               rules={{
                 required: true
               }}
-              render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a county" />}
+              render={({ field }) => <Form.Control {...field} type="text" placeholder="Enter a zip code" />}
             />            
-            {errors.contacts && errors.contacts[index]?.county?.type === 'required' && <Form.Text className="text-danger">A county is required</Form.Text>}
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>I Identify As</Form.Label>
-            <Controller
-              name="contacts.0.identifyAs"
-              control={control}
-              rules={{
-                required: false
-              }}
-              render={({ field }) => <Form.Control {...field} as="textarea" placeholder="I identify as..." />}
-            />            
-            {errors.contacts && errors.contacts[index]?.identifyAs?.type === 'required' && <><Form.Text className="text-danger">Your personal identity is required</Form.Text><br/></>}
-            <Form.Text>(50 words max. Please include all personally relevant demographic information)</Form.Text>
+            {errors.contacts && errors.contacts[index]?.zip?.type === 'required' && <Form.Text className="text-danger">Your zip is required</Form.Text>}
             
           </Form.Group>
         </Fragment>

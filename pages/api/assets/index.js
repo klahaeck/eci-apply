@@ -23,13 +23,15 @@ handler.post(withApiAuthRequired(async (req, res) => {
   const now = new Date();
 
   if (file) {
-    const { width, height } = sizeOf(file.filepath);
-    body.imageWidth = width;
-    body.imageHeight = height;
+    if (file.mimetype !== 'application/pdf') {
+      const { width, height } = sizeOf(file.filepath);
+      body.assetWidth = width;
+      body.assetHeight = height;
+    }
 
     const { location, key } = await upload(now, file);
-    body.imageURL = location;
-    body.imageKey = key;
+    body.assetURL = location;
+    body.assetKey = key;
   }
 
   body.createdAt = now;
