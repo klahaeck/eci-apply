@@ -41,7 +41,7 @@ const Submission = ({ program, submission, mutate, isPanel = false }) => {
 
       <Alerts position="submission" dismissible={true} />
 
-      <Accordion defaultActiveKey={['0', '1', '6']} alwaysOpen>
+      <Accordion defaultActiveKey={['0', '1', '2', '3', '4']} alwaysOpen>
         <Accordion.Item eventKey="0">
           <Accordion.Header><b>Contact info</b></Accordion.Header>
           <Accordion.Body>
