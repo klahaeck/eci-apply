@@ -1,10 +1,10 @@
 export const meta = {
   copyright: 'Emerging Curators Institute',
-  title: 'Emerging Curators Institute',
-  socialTitle: 'Emerging Curators Institute - Fellowship',
+  title: 'ECI - Fellowship',
+  socialTitle: 'ECI - Fellowship',
   keywords: 'emerging, curators, institute, fellowship',
-  description: 'Emerging Curators Institute Fellowship',
-  imageUrl: 'https://cryptowords.s3.amazonaws.com/production/social-share.png',
+  description: 'The Emerging Curators Institute is designed to build the individual practices of emerging curators from diverse backgrounds through an in-depth research, professional development, and presentation program.',
+  imageUrl: 'https://eciapply.s3.amazonaws.com/eci-share-logo.png',
   path: '/',
   url: 'https://apply.emergingcurators.org'
 };
