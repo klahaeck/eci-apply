@@ -26,8 +26,8 @@ const ProgramList = ({ programs }) => {
             <tr key={index}>
               <td><Link href={`/${program.campaign}/${program.slug}`}><a>{program.title}</a></Link></td>
               <td>{program.campaign}</td>
-              <td>{program.startDate}</td>
-              <td>{program.endDate}</td>
+              <td>{new Date(program.startDate).toLocaleDateString()}</td>
+              <td>{new Date(program.endDate).toLocaleDateString()}</td>
               <td>{program.published.toString()}</td>
               <td>{program.submissionsCount}</td>
               <td>
