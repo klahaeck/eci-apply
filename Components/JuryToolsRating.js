@@ -4,6 +4,7 @@ import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import {
   Form
 } from 'react-bootstrap';
+import { jurorSettings } from '../data';
 
 const JuryToolsRating = ({ program, submission, mutate }) => {
   const { user } = useUser();
@@ -68,7 +69,7 @@ const JuryToolsRating = ({ program, submission, mutate }) => {
               name={`scopes.${index}.value`}
               control={control}
               defaultValue={scope.value || 0}
-              render={({ field }) => <Form.Range {...field} min="0" max="5" step="1" />}
+              render={({ field }) => <Form.Range {...field} min="0" max={jurorSettings.maxRating} step="1" />}
             />
           </div>
         ))}

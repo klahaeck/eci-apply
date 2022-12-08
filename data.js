@@ -11,6 +11,10 @@ export const meta = {
 
 export const campaigns = [ 'Fellowship' ];
 
+export const jurorSettings = {
+  maxRating: 10,
+};
+
 // export const defaultQuestion = {
 //   question: '',
 //   placeholder: '',
