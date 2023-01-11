@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import Input from 'react-phone-number-input/input';
 import {
@@ -19,10 +19,6 @@ const FormContactInfo = ({ submission, onSubmit, hideModal }) => {
     control,
     name: 'contacts'
   });
-
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="mt-3">
