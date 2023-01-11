@@ -11,8 +11,8 @@ const SubmissionContactInfo = ({ submission, onSubmit }) => {
 
   return (
     <>
-      {submission.contacts && submission.contacts.map((contact, index) => (
-        <Table key={index}size="sm">
+      {submission?.contacts.length > 0 && submission.contacts.map((contact, index) => (
+        <Table key={index} size="sm">
           <tbody>
             <tr>
               <td>Name:</td>
@@ -36,7 +36,7 @@ const SubmissionContactInfo = ({ submission, onSubmit }) => {
             </tr>
             <tr>
               <td>State:</td>
-              <td>{contact.state.label}</td>
+              <td>{contact.state?.label}</td>
             </tr>
             <tr>
               <td>Zip:</td>

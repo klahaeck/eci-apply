@@ -56,7 +56,10 @@ export const defaultProfile = {
     address0: '',
     address1: '',
     city: '',
-    state: '',
+    state: {
+      label: '',
+      value: ''
+    },
     zip: '',
     // county: '',
   }
