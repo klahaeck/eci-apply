@@ -23,6 +23,22 @@ const ToolbarProgram = ({ program, showSearch }) => {
 
   const now = new Date();
 
+  const getCSV = async () => {
+    try {
+      const response = await fetch(`/api/programs/${program.campaign}/${program.slug}/export`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/octet-stream',
+        }
+      })
+      console.log(response)
+      // const data = await response.json()
+      // console.log(data)
+    } catch (error) {
+      
+    }
+  };
+
   return (
     <Navbar bg="dark" variant="dark">
       {!isAdmin(user) && !isJuror(user) && now < new Date(program.startDate) && <Nav.Item>
@@ -59,6 +75,9 @@ const ToolbarProgram = ({ program, showSearch }) => {
           </Link>
         </Nav.Item>} */}
         {user && isAdmin(user) && <Nav.Item className="mx-1">
+          <a href={`/api/programs/${campaign}/${slug}/export`} download>
+            <Button variant="success" size="sm" className="me-2">Export CSV</Button>
+          </a>
           <Link href={`/${campaign}/${slug}/edit`} passHref>
             <Button variant="warning" size="sm">Edit</Button>
           </Link>
