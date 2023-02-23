@@ -17,8 +17,8 @@ const MetaTags = ({ meta }) => (
 
 
     <meta name="twitter:card"           content="summary_large_image" key="twitter:card" />
-    <meta name="twitter:site"           content="@RealCryptoWords" key="twitter:site" />
-    <meta name="twitter:creator"        content="@RealCryptoWords" key="twitter:creator" />
+    <meta name="twitter:site"           content="@emergingcurator" key="twitter:site" />
+    <meta name="twitter:creator"        content="@emergingcurator" key="twitter:creator" />
     <meta name="twitter:title"          content={meta.socialTitle || meta.title} key="twitter:title" />
     <meta name="twitter:description"    content={meta.description} key="twitter:description" />
     <meta name="twitter:image"          content={meta.imageUrl} key="twitter:image" />
